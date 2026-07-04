@@ -1,0 +1,37 @@
+# Deploys the backend to Render whenever backend code lands on main.
+#
+# Setup (one time): in Render → tyrey-backend → Settings → Deploy Hook, copy the
+# hook URL and save it as the repository secret RENDER_DEPLOY_HOOK
+# (GitHub → Settings → Secrets and variables → Actions). Until the secret is
+# set, this workflow skips deployment and exits green.
+#
+# The frontend needs no workflow — Vercel deploys it automatically on push.
+name: Deploy backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+      - "render.yaml"
+
+concurrency:
+  group: deploy-backend
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Trigger Render deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Render deploy hook
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+            echo "::notice::RENDER_DEPLOY_HOOK secret not set — skipping automatic deploy."
+            echo "Deploy manually from the Render dashboard, or add the secret to enable auto-deploy."
+            exit 0
+          fi
+          curl --fail --silent --show-error -X POST "$RENDER_DEPLOY_HOOK"
+          echo "Render deploy triggered."

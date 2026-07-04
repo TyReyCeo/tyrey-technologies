@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose new functionality or an improvement.
+labels: [enhancement, triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user or business problem does this solve? Who is asking for it?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What should it do? Sketch the UX or API if you can.
+    validations:
+      required: true
+  - type: dropdown
+    id: revenue
+    attributes:
+      label: Revenue impact
+      description: Helps prioritization — does this touch a paid flow?
+      options:
+        - Directly monetized (funnel, subscriptions, service lead-gen)
+        - Retention / product quality
+        - Internal tooling / developer experience
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

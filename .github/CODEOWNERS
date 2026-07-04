@@ -1,0 +1,13 @@
+# Default owner for everything in the repo.
+# Add engineers per-path as the team grows, e.g.:
+#   /backend/   @TyReyCeo @backend-lead
+#   /frontend/  @TyReyCeo @frontend-lead
+*                       @TyReyCeo
+
+# The framework IP library is the product moat — changes need founder review.
+/backend/app/frameworks/  @TyReyCeo
+
+# Billing and auth are revenue/security critical.
+/backend/app/routers/billing.py  @TyReyCeo
+/backend/app/routers/funnel.py   @TyReyCeo
+/backend/app/security.py         @TyReyCeo

@@ -1,22 +1,43 @@
 # TyRey Technologies, Inc.
 
-**Building the Intelligence Infrastructure for Modern Business**
+[![CI](https://github.com/TyReyCeo/tyrey-technologies/actions/workflows/ci.yml/badge.svg)](https://github.com/TyReyCeo/tyrey-technologies/actions/workflows/ci.yml)
 
-This monorepo contains **TyRey Intelligence™** — the AI-powered strategic advisory platform — implementing both:
+**Building the Intelligence Infrastructure for Modern Business** · Live at [tyreytechnologies.com](https://tyreytechnologies.com)
 
-1. **The Phase 8 revenue funnel** (public landing page): idea → free AI preview → paywall → Stripe checkout → downloadable Investor Business Pack.
+This monorepo is the entire company surface — **one brand, one codebase, one
+deployment**. tyreytechnologies.com is both the marketing site and the
+application: the homepage markets, and every CTA routes into the product
+(`/intelligence` funnel, `/signup`, `/login` → `/dashboard`). It implements:
+
+1. **The Phase 8 revenue funnel** (`/intelligence`): idea → free AI preview → paywall → Stripe checkout → downloadable Investor Business Pack.
 2. **The full MVP SaaS** (per MVP Build Spec v1.0): accounts, projects, intelligence modules, document vault, Edit-with-AI, PDF export.
+3. **The corporate site**: homepage + three service pages with lead capture.
 
 ## Structure
 
 ```
 tyrey-technologies/
+├── .github/                  CI, deploy automation, issue/PR templates
 ├── backend/                  FastAPI + SQLAlchemy + Anthropic Claude + Stripe
-│   └── app/frameworks/       Proprietary framework IP library (11 frameworks)
-├── frontend/                 Next.js (funnel + SaaS dashboard)
-├── docs/                     Corporate document set
+│   ├── app/frameworks/       Proprietary framework IP library (11 frameworks)
+│   ├── migrations/           Alembic database migrations
+│   ├── tests/                End-to-end smoke suite (keyless demo mode)
+│   └── evals/                AI output quality gate
+├── frontend/                 Next.js 14 (marketing site + funnel + SaaS dashboard)
+├── docs/                     Engineering + corporate documentation
 └── docker-compose.yml
 ```
+
+## Documentation
+
+New engineer? Read in this order:
+
+1. [CONTRIBUTING.md](CONTRIBUTING.md) — setup, workflow, where things live
+2. [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — how the system fits together
+3. [docs/CODING_STANDARDS.md](docs/CODING_STANDARDS.md) — style and review bar
+4. [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — environments, migrations, releases
+
+Also: [SECURITY.md](SECURITY.md) · [CHANGELOG.md](CHANGELOG.md) · [LICENSE](LICENSE)
 
 ## Intelligence modules (framework IP library)
 
@@ -37,6 +58,7 @@ cd backend
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 cp .env.example .env        # add your ANTHROPIC_API_KEY and Stripe keys
+alembic upgrade head        # create/upgrade the local database schema
 uvicorn app.main:app --reload --port 8000
 ```
 

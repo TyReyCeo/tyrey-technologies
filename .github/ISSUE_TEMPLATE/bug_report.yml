@@ -1,0 +1,43 @@
+name: Bug report
+description: Something in TyRey Intelligence isn't working as expected.
+labels: [bug, triage]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Funnel (idea → preview → checkout → pack)
+        - Dashboard / SaaS (projects, vault, Edit-with-AI)
+        - Auth (signup / login / sessions)
+        - Billing (Stripe subscriptions, checkout, webhooks)
+        - AI engine / frameworks (generation quality or failures)
+        - Marketing site / service pages / lead capture
+        - Infrastructure (deploy, CI, Docker, database)
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+      placeholder: |
+        1. Went to /intelligence and entered an idea
+        2. Clicked "Get My Free Idea Score"
+        3. Expected a preview; got a 500 error
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Production (tyreytechnologies.com), local dev, or Docker? Browser if relevant.
+      placeholder: Production, Chrome on Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Backend logs, browser console errors, or screenshots. Redact emails and keys.
+      render: shell

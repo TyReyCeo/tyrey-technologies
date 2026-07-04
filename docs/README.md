@@ -1,4 +1,17 @@
-# Corporate document set
+# Documentation
+
+## Engineering docs (start here)
+
+| Doc | What it covers |
+|---|---|
+| [ARCHITECTURE.md](ARCHITECTURE.md) | System overview, route map, backend modules, design decisions |
+| [DEPLOYMENT.md](DEPLOYMENT.md) | Environments, secrets, migrations, release + rollback, go-live checklist |
+| [CODING_STANDARDS.md](CODING_STANDARDS.md) | Style, patterns, and the review bar |
+| [../CONTRIBUTING.md](../CONTRIBUTING.md) | Dev setup and PR workflow |
+| [../SECURITY.md](../SECURITY.md) | Vulnerability reporting and security practices |
+| [../CHANGELOG.md](../CHANGELOG.md) | Release history |
+
+## Corporate document set
 
 The founding strategy and build-spec documents for TyRey Intelligence™ live in
 the parent folder of this repository (`TyRey Intelligence™/*.docx`):
@@ -17,5 +30,6 @@ the parent folder of this repository (`TyRey Intelligence™/*.docx`):
 | FINAL EXECUTION CHECKLIST | Deployment + go-live steps |
 | Product Requirements Document · Investor Package · Ecosystem docs | Corporate set |
 
-The codebase implements the **Phase 8 funnel** as the public landing page and
-the **MVP Build Spec v1.0** SaaS behind `/dashboard`.
+The codebase implements the **Phase 8 funnel** at `/intelligence` and the
+**MVP Build Spec v1.0** SaaS behind `/dashboard`, with the corporate homepage
+at `/` routing every CTA into the product.
