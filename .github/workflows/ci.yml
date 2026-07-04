@@ -1,5 +1,5 @@
 # Continuous integration — runs on every PR and every push to main.
-# Backend: install deps, apply migrations to a scratch DB, run the smoke suite + evals gate.
+# Backend: install deps, apply migrations to a scratch DB, lint, run the test suite.
 # Frontend: type-check and production build.
 name: CI
 
@@ -26,15 +26,18 @@ jobs:
           cache-dependency-path: backend/requirements.txt
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt -r requirements-dev.txt
 
       - name: Apply migrations to a scratch database
         run: |
           DATABASE_URL=sqlite:///./ci-migrate.db alembic upgrade head
           DATABASE_URL=sqlite:///./ci-migrate.db alembic check
 
-      - name: Run smoke suite (demo mode, no keys required)
-        run: python tests/smoke_test.py
+      - name: Lint
+        run: ruff check .
+
+      - name: Run test suite (demo mode, no keys required)
+        run: pytest -q
 
   frontend:
     name: Frontend (Next.js)

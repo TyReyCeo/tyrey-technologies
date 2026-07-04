@@ -1,7 +1,7 @@
 """Lead capture from the marketing site's service pages.
 
 POST /leads          — public, called by the LeadForm on each service page.
-GET  /leads          — authenticated, list captured leads (newest first).
+GET  /leads          — admin-only (ADMIN_EMAILS), list captured leads (newest first).
 """
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import Lead, User
 from ..schemas import LeadCreate, LeadOut
-from ..security import get_current_user
+from ..security import require_admin
 
 router = APIRouter(prefix="/leads", tags=["leads"])
 
@@ -38,6 +38,6 @@ def create_lead(payload: LeadCreate, db: Session = Depends(get_db)):
 
 @router.get("", response_model=list[LeadOut])
 def list_leads(
-    db: Session = Depends(get_db), user: User = Depends(get_current_user)
+    db: Session = Depends(get_db), user: User = Depends(require_admin)
 ):
     return db.query(Lead).order_by(Lead.created_at.desc()).all()

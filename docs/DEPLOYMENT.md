@@ -85,5 +85,5 @@ Current state: Stripe is in **test mode**; Render is on the **free tier**
 
 ```bash
 docker compose up --build   # backend :8000, frontend :3000, both containerized
-cd backend && python tests/smoke_test.py
+cd backend && pytest
 ```

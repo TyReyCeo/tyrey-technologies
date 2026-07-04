@@ -37,7 +37,8 @@ Anthropic) — report those upstream.
 - Secrets live only in environment variables (Render/Vercel dashboards);
   `.env*` files are gitignored and templated.
 - Passwords are hashed; auth is JWT bearer tokens.
-- Every authenticated query is scoped to the requesting user; the smoke suite
-  asserts ownership isolation.
+- Every authenticated query is scoped to the requesting user; the test suite
+  asserts ownership isolation. Admin-only endpoints (lead listing) are limited
+  to `ADMIN_EMAILS` and deny by default.
 - Stripe webhooks are signature-verified with `STRIPE_WEBHOOK_SECRET`.
 - Dependencies are updated weekly via Dependabot.

@@ -27,11 +27,15 @@ existing router/page.
   lines moves to a module (`ai_engine.py`, `pdf_service.py` are the pattern).
   One router file per domain.
 - **Every authenticated query filters by `user_id`.** Ownership isolation is a
-  hard rule; the smoke suite asserts it. A missing filter is a security bug,
+  hard rule; the test suite asserts it. A missing filter is a security bug,
   not a style nit.
 - **Never freeform-prompt the model.** All generation goes through
   `ai_engine.py` with a framework from `app/frameworks/` injected. New
-  document types = new framework JSON, not a new prompt string.
+  document types = new framework JSON, not a new prompt string. Auxiliary
+  prompts (editor, retry, preview constraints) live as files in
+  `app/prompts/` — never inline strings. Model transport (timeouts, retries,
+  metadata logging) lives in `llm.py`; don't call the anthropic SDK anywhere
+  else.
 - **Degrade to demo mode, don't crash.** Code paths that need external keys
   (`ANTHROPIC_API_KEY`, `STRIPE_SECRET_KEY`) must behave sensibly without
   them — labeled sample output or dev-mode fulfillment. CI has no keys.
@@ -39,8 +43,9 @@ existing router/page.
   keys, or model names in code.
 - Schema changes always ship with an Alembic migration
   ([DEPLOYMENT.md](DEPLOYMENT.md#database-migrations)).
-- Extend `tests/smoke_test.py` for every new endpoint (happy path + auth/
+- Add tests in `tests/test_api.py` for every new endpoint (happy path + auth/
   ownership failure). AI-quality changes update `evals/golden_set.json`.
+  `ruff check . && pytest` must pass before a PR.
 
 ## Frontend (TypeScript / Next.js)
 
@@ -61,7 +66,7 @@ existing router/page.
 
 ## Review checklist (what approvals look for)
 
-1. CI green (migrations apply, smoke suite, type-check, build).
+1. CI green (migrations apply, lint, test suite, type-check, build).
 2. No secret material or personal data in code, fixtures, or logs.
 3. Ownership isolation on any new authenticated endpoint.
 4. Migration present and reversible for any schema change.

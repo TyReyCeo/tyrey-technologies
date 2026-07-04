@@ -61,3 +61,10 @@ def get_current_user(
     if user is None:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "User not found")
     return user
+
+
+def require_admin(user: User = Depends(get_current_user)) -> User:
+    admins = {e.strip().lower() for e in settings.ADMIN_EMAILS.split(",") if e.strip()}
+    if user.email.lower() not in admins:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Admin access required")
+    return user

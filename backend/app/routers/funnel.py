@@ -9,8 +9,9 @@ from sqlalchemy.orm import Session
 from .. import ai_engine
 from ..config import settings
 from ..database import get_db
-from ..models import Order
+from ..models import Order, User
 from ..pdf_service import render_pdf
+from .billing import PLAN_PRICES
 from ..schemas import (
     CheckoutRequest,
     CheckoutResponse,
@@ -118,16 +119,42 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
 
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]
-        order_id = _sget(_sget(session, "metadata", {}), "order_id")
-        order = db.get(Order, order_id) if order_id else None
-        if order is None:
-            order = (
-                db.query(Order).filter(Order.stripe_session_id == session["id"]).first()
-            )
-        if order is not None:
-            if not order.email:
-                order.email = _sget(_sget(session, "customer_details", {}), "email")
-            _fulfill_order(db, order)
+        meta = _sget(session, "metadata", {}) or {}
+        user_id = _sget(meta, "user_id")
+        plan = _sget(meta, "plan")
+
+        if user_id and plan:
+            # SaaS subscription checkout created by /billing/subscribe —
+            # this is the step that actually activates the paid plan.
+            user = db.get(User, user_id)
+            if user is not None and plan in PLAN_PRICES:
+                user.plan = plan
+                db.commit()
+                logger.info("Activated plan %s for user %s", plan, user.id)
+        else:
+            # One-time funnel pack purchase
+            order_id = _sget(meta, "order_id")
+            order = db.get(Order, order_id) if order_id else None
+            if order is None:
+                order = (
+                    db.query(Order).filter(Order.stripe_session_id == session["id"]).first()
+                )
+            if order is not None:
+                if not order.email:
+                    order.email = _sget(_sget(session, "customer_details", {}), "email")
+                _fulfill_order(db, order)
+
+    elif event["type"] == "customer.subscription.deleted":
+        customer_id = _sget(event["data"]["object"], "customer")
+        user = (
+            db.query(User).filter(User.stripe_customer_id == customer_id).first()
+            if customer_id
+            else None
+        )
+        if user is not None and user.plan != "free":
+            logger.info("Subscription ended — downgrading user %s to free", user.id)
+            user.plan = "free"
+            db.commit()
 
     return {"status": "success"}
 

@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRE_DAYS: int = 7
 
+    # Comma-separated emails allowed to access admin-only endpoints (e.g. lead
+    # listing). Empty means no one — admin routes deny by default.
+    ADMIN_EMAILS: str = ""
+
     STRIPE_SECRET_KEY: str = ""
     STRIPE_WEBHOOK_SECRET: str = ""
     STRIPE_PRICE_STARTER: str = ""

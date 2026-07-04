@@ -1,0 +1,10 @@
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+# E402: tests/conftest.py must set env vars before app imports
+per-file-ignores = { "tests/conftest.py" = ["E402"] }

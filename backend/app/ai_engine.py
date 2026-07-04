@@ -10,6 +10,8 @@ import logging
 
 from .config import settings
 from .frameworks import build_prompt, load_framework
+from .llm import get_provider
+from .prompts import load_prompt
 
 logger = logging.getLogger("tyrey.ai")
 
@@ -56,17 +58,8 @@ def _demo_output(framework: dict, context: dict[str, str]) -> str:
     )
 
 
-def _call_claude(system: str, user: str) -> str:
-    import anthropic
-
-    client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
-    response = client.messages.create(
-        model=settings.CLAUDE_MODEL,
-        max_tokens=MAX_TOKENS,
-        system=system,
-        messages=[{"role": "user", "content": user}],
-    )
-    return "".join(block.text for block in response.content if block.type == "text")
+def _complete(system: str, user: str) -> str:
+    return get_provider().complete(system, user, max_tokens=MAX_TOKENS)
 
 
 def validate_structure(framework: dict, content: str) -> list[str]:
@@ -92,7 +85,7 @@ def generate(framework_name: str, context: dict[str, str]) -> str:
         logger.warning("ANTHROPIC_API_KEY not set — returning demo output for %s", framework_name)
         return _demo_output(framework, context)
 
-    content = _call_claude(system, user)
+    content = _complete(system, user)
 
     # Quality gate: one corrective retry if required sections are missing.
     missing = validate_structure(framework, content)
@@ -100,12 +93,10 @@ def generate(framework_name: str, context: dict[str, str]) -> str:
         logger.warning("Output for %s missing sections %s — corrective retry", framework_name, missing)
         corrective = (
             user
-            + "\n\nYOUR PREVIOUS ATTEMPT WAS REJECTED because these required "
-            f"sections were missing: {', '.join(missing)}. Regenerate the full "
-            "document including EVERY required section, using the exact section "
-            "headings given."
+            + "\n\n"
+            + load_prompt("corrective_retry").format(missing=", ".join(missing))
         )
-        content = _call_claude(system, corrective)
+        content = _complete(system, corrective)
 
     return content
 
@@ -116,18 +107,12 @@ def generate_preview(idea: str, industry: str, stage: str) -> str:
     system, user = build_prompt(
         framework, {"idea": idea, "industry": industry, "stage": stage}
     )
-    user += (
-        "\n\nADDITIONAL CONSTRAINTS (FREE PREVIEW MODE):\n"
-        "- Keep the whole output under 500 words\n"
-        "- After Next Steps, add a final section '## Inside Your Full Investor Pack' "
-        "listing the sections of the full Business Plan, Investor Memo, and Market "
-        "Analysis this idea would receive (headings only — do not write their content)"
-    )
+    user += "\n\n" + load_prompt("preview_constraints")
 
     if not settings.ANTHROPIC_API_KEY:
         return _demo_output(framework, {"idea": idea, "industry": industry, "stage": stage})
 
-    return _call_claude(system, user)
+    return _complete(system, user)
 
 
 def generate_pack(tier: str, idea: str, industry: str, stage: str) -> str:
@@ -151,12 +136,7 @@ def generate_pack(tier: str, idea: str, industry: str, stage: str) -> str:
 
 def edit_document(content: str, instruction: str) -> str:
     """Edit-with-AI: revise a deliverable while preserving its framework structure."""
-    system = (
-        "You are TyRey Intelligence Strategy Engine. You revise existing "
-        "deliverables. Preserve the document's section structure and headings "
-        "unless the instruction explicitly asks to change them. Return ONLY the "
-        "full revised markdown document — no commentary."
-    )
+    system = load_prompt("document_editor")
     user = f"DOCUMENT:\n\n{content}\n\nREVISION INSTRUCTION:\n{instruction}"
 
     if not settings.ANTHROPIC_API_KEY:
@@ -166,4 +146,4 @@ def edit_document(content: str, instruction: str) -> str:
             "(connect an ANTHROPIC_API_KEY to apply real AI edits)."
         )
 
-    return _call_claude(system, user)
+    return _complete(system, user)

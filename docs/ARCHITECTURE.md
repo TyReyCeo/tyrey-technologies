@@ -70,8 +70,10 @@ FastAPI + SQLAlchemy 2.0 (typed `Mapped` models) + Pydantic v2.
 | `database.py` | Engine, session factory, `Base` |
 | `models.py` | `User`, `Project`, `Document`, `Lead`, `Order` |
 | `schemas.py` | Request/response models |
-| `security.py` | Password hashing + JWT issue/verify |
-| `ai_engine.py` | Claude calls; always injects a framework JSON |
+| `security.py` | Password hashing, JWT issue/verify, `require_admin` gate |
+| `ai_engine.py` | Prompt composition; always injects a framework JSON |
+| `llm.py` | Model transport: provider seam, timeouts, retries with backoff, metadata logging (model/latency/tokens — never user content) |
+| `prompts/` | Versioned auxiliary prompt files (editor, retry, preview constraints) |
 | `pdf_service.py` | Markdown → branded PDF |
 | `routers/` | One file per domain (see [README API overview](../README.md#api-overview)) |
 | `frameworks/` | **The moat**: 11 proprietary framework templates |
@@ -80,16 +82,29 @@ FastAPI + SQLAlchemy 2.0 (typed `Mapped` models) + Pydantic v2.
 
 - **Framework injection, never freeform prompting.** Every generation loads a
   JSON framework from `app/frameworks/` and structures the prompt around it.
-  This is deliberate product IP (Phase 5 spec) — don't bypass it.
+  This is deliberate product IP (Phase 5 spec) — don't bypass it. Auxiliary
+  prompts are versioned files in `app/prompts/`, never inline strings.
+- **AI transport is isolated in `llm.py`.** One provider seam (`get_provider()`),
+  SDK-level timeouts and retries with backoff, metadata-only logging. Provider
+  failures surface as `LLMError` → a defined 502 response, never a raw stack
+  trace.
 - **Demo mode degrades gracefully.** No `ANTHROPIC_API_KEY` → clearly-labeled
   sample output. No `STRIPE_SECRET_KEY` → checkout fulfills instantly (dev
-  only). The entire product is testable with zero keys; the smoke suite and CI
+  only). The entire product is testable with zero keys; the test suite and CI
   depend on this.
 - **Ownership isolation** is enforced in every router — queries always filter
-  by the authenticated `user_id`. The smoke suite asserts cross-user access
-  fails.
+  by the authenticated `user_id`. The test suite asserts cross-user access
+  fails. Lead listing is admin-only (`ADMIN_EMAILS`, deny by default).
 - **Two payment paths**: one-time funnel packs (`Order`, `/funnel/*`) and SaaS
-  subscriptions (`User.plan`, `/billing/*`). Both converge on Stripe webhooks.
+  subscriptions (`User.plan`, `/billing/*`). Both converge on the
+  `/funnel/webhook` Stripe endpoint: `checkout.session.completed` fulfills an
+  order (order metadata) or activates a plan (user/plan metadata);
+  `customer.subscription.deleted` downgrades the user to free.
+- **Auth is deliberately hand-rolled JWT for the MVP** (PBKDF2 + PyJWT). The
+  Engineering Handbook prefers a managed provider (Clerk/Auth0/Supabase);
+  migrating is an accepted future task — don't extend the custom auth surface
+  (no password reset, sessions, or OAuth here) without revisiting that
+  decision.
 
 ## Database
 
@@ -102,10 +117,14 @@ the source of truth for schema evolution.
 
 ## Quality gates
 
-- `backend/tests/smoke_test.py` — 20-check end-to-end suite, demo mode, no keys.
+- `backend/tests/` — pytest end-to-end API suite (`pytest` from `backend/`),
+  demo mode, no keys. Covers funnel, auth, projects, vault, ownership
+  isolation, the admin gate, and the subscription webhook lifecycle.
+- `ruff check .` — lint (config in `backend/pyproject.toml`).
 - `backend/evals/run_evals.py` + `golden_set.json` — AI output quality gate.
 - CI ([.github/workflows/ci.yml](../.github/workflows/ci.yml)) runs migrations,
-  the smoke suite, a frontend type-check, and a production build on every PR.
+  lint, the test suite, a frontend type-check, and a production build on every
+  PR.
 
 ## Related docs
 

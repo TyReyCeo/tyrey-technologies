@@ -1,10 +1,12 @@
 import logging
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from .config import settings
 from .database import init_db
+from .llm import LLMError
 from .routers import auth, billing, documents, funnel, leads, projects
 
 logging.basicConfig(level=logging.INFO)
@@ -33,6 +35,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.exception_handler(LLMError)
+def llm_error_handler(request: Request, exc: LLMError):
+    # Defined user-facing failure for AI workflows (provider already retried).
+    return JSONResponse(
+        status_code=502,
+        content={"detail": "AI generation is temporarily unavailable. Please try again."},
+    )
+
 
 app.include_router(funnel.router)
 app.include_router(auth.router)

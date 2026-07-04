@@ -20,8 +20,9 @@ tyrey-technologies/
 ├── .github/                  CI, deploy automation, issue/PR templates
 ├── backend/                  FastAPI + SQLAlchemy + Anthropic Claude + Stripe
 │   ├── app/frameworks/       Proprietary framework IP library (11 frameworks)
+│   ├── app/prompts/          Versioned auxiliary prompt assets
 │   ├── migrations/           Alembic database migrations
-│   ├── tests/                End-to-end smoke suite (keyless demo mode)
+│   ├── tests/                pytest end-to-end API suite (keyless demo mode)
 │   └── evals/                AI output quality gate
 ├── frontend/                 Next.js 14 (marketing site + funnel + SaaS dashboard)
 ├── docs/                     Engineering + corporate documentation

@@ -1,0 +1,4 @@
+# Test & lint tooling (CI + local). Runtime deps live in requirements.txt.
+pytest>=8.0
+ruff>=0.5
+httpx>=0.27

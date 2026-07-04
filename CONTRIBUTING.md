@@ -14,7 +14,7 @@ cd tyrey-technologies
 # Backend
 cd backend
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirements.txt -r requirements-dev.txt
 cp .env.example .env          # runs in demo mode with no keys — that's fine
 alembic upgrade head          # create the local SQLite schema
 uvicorn app.main:app --reload --port 8000
@@ -38,7 +38,7 @@ Or: `docker compose up --build`.
 2. Make the change, following [docs/CODING_STANDARDS.md](docs/CODING_STANDARDS.md).
 3. Verify locally:
    ```bash
-   cd backend && python tests/smoke_test.py    # must end with 0 failures
+   cd backend && ruff check . && pytest        # lint + full API suite
    cd frontend && npx tsc --noEmit && npm run build
    ```
 4. Open a PR — the [template](.github/PULL_REQUEST_TEMPLATE.md) is the
@@ -53,7 +53,7 @@ Or: `docker compose up --build`.
 | I want to… | Look at |
 |---|---|
 | Understand the system | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| Add/modify an API endpoint | `backend/app/routers/` + extend `backend/tests/smoke_test.py` |
+| Add/modify an API endpoint | `backend/app/routers/` + add tests in `backend/tests/test_api.py` |
 | Change the schema | `backend/app/models.py` + `alembic revision` ([how](docs/DEPLOYMENT.md#database-migrations)) |
 | Touch AI generation | `backend/app/ai_engine.py` + `backend/app/frameworks/` + `backend/evals/` |
 | Edit a page | `frontend/src/app/<route>/page.tsx` |
