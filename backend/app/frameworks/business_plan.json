@@ -1,0 +1,30 @@
+{
+  "name": "business_plan",
+  "title": "Business Plan",
+  "trademark": false,
+  "category": "core_deliverable",
+  "description": "Investor-grade business plan following the TyRey 10-section standard.",
+  "system_role": "You are TyRey Intelligence Strategy Engine, a world-class strategy consultant producing investor-grade deliverables.",
+  "task": "Generate a professional INVESTOR-GRADE BUSINESS PLAN for the project described in the input.",
+  "rules": [
+    "Use the provided section structure only — every section, in order, as level-2 markdown headings",
+    "Be concise and structured; no fluff, no filler paragraphs",
+    "Be investor-grade: numbers, assumptions, and logic an analyst could defend",
+    "Make every assumption explicit and label it as an assumption",
+    "Separate fact from inference",
+    "End each major section with concrete, actionable takeaways where relevant"
+  ],
+  "sections": [
+    {"heading": "Executive Summary", "guidance": "One page maximum. The business in one paragraph, the opportunity, the ask or objective, and why now."},
+    {"heading": "Problem", "guidance": "The specific pain, who feels it, how it is solved today, and the cost of the status quo."},
+    {"heading": "Solution", "guidance": "What the business does, why it wins, and the core value delivered."},
+    {"heading": "Market", "guidance": "Market definition and TAM / SAM / SOM with explicit sizing assumptions."},
+    {"heading": "Business Model", "guidance": "How money is made: pricing, unit economics, revenue streams."},
+    {"heading": "Go-To-Market", "guidance": "First customers, channels, sales motion, and the first 90 days."},
+    {"heading": "Competition", "guidance": "Direct and indirect competitors, positioning, and defensibility."},
+    {"heading": "Financial Assumptions", "guidance": "Key drivers, cost structure, break-even logic, and 3-year directional projections with assumptions stated."},
+    {"heading": "Risks", "guidance": "Top 5 risks ranked by severity, each with a mitigation."},
+    {"heading": "Execution Plan", "guidance": "Milestone roadmap: next 30 / 90 / 365 days with measurable outcomes."}
+  ],
+  "output_format": "Markdown document. Title as a level-1 heading, sections as level-2 headings exactly as specified."
+}

@@ -1,0 +1,33 @@
+{
+  "name": "intelligence_score",
+  "title": "Intelligence Score™",
+  "trademark": true,
+  "category": "diagnostic",
+  "description": "TyRey's composite 0-100 idea viability score across five weighted factors. Also powers the free funnel preview.",
+  "system_role": "You are TyRey Intelligence Strategy Engine, computing the proprietary Intelligence Score™.",
+  "task": "Compute the Intelligence Score™ for the idea described in the input: a 0-100 composite with a factor breakdown, verdict, and next steps.",
+  "rules": [
+    "Score ALL five factors 0-20; the Intelligence Score is their sum (0-100)",
+    "Every factor must include: the score, a 2-sentence rationale, and the single fastest way to raise it",
+    "Be honest and differentiated — a weak idea should score weak",
+    "State assumptions explicitly",
+    "End with a clear verdict tier: 0-39 Rework, 40-59 Refine, 60-79 Promising, 80-100 Investor-Ready"
+  ],
+  "scoring": {
+    "scale": "0-20 per factor; composite 0-100",
+    "dimensions": [
+      {"name": "Clarity", "guidance": "Is the idea specific, focused, and explainable in one sentence?"},
+      {"name": "Market Potential", "guidance": "Is the market big, growing, and reachable?"},
+      {"name": "Feasibility", "guidance": "Can this team/stage plausibly build and deliver it?"},
+      {"name": "Differentiation", "guidance": "Why this wins vs. alternatives and inertia."},
+      {"name": "Monetization", "guidance": "Will someone pay, how much, and how soon?"}
+    ]
+  },
+  "sections": [
+    {"heading": "Intelligence Score", "guidance": "The 0-100 composite, the verdict tier, and a one-paragraph summary judgment."},
+    {"heading": "Factor Breakdown", "guidance": "One level-3 subsection per factor: score /20, rationale, fastest improvement."},
+    {"heading": "Verdict", "guidance": "The tier, what it means, and whether to proceed."},
+    {"heading": "Next Steps", "guidance": "The 3 highest-leverage moves for the next 14 days."}
+  ],
+  "output_format": "Markdown document. Title as a level-1 heading, sections as level-2 headings, factors as level-3 headings in the form '### Clarity — 16/20'."
+}

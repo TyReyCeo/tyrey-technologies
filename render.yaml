@@ -1,0 +1,35 @@
+# Render Blueprint — deploys the TyRey Intelligence backend + Postgres.
+# In Render: New -> Blueprint -> pick this repo. Then set the secret env vars
+# (marked sync:false) in the dashboard.
+services:
+  - type: web
+    name: tyrey-backend
+    runtime: python
+    rootDir: backend
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: tyrey-db
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false # set in dashboard
+      - key: STRIPE_SECRET_KEY
+        sync: false # set in dashboard (live key when going live)
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false # from the Stripe dashboard webhook endpoint
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLAUDE_MODEL
+        value: claude-sonnet-5
+      - key: FRONTEND_URL
+        sync: false # your Vercel URL, e.g. https://tyrey-intelligence.vercel.app
+
+databases:
+  - name: tyrey-db
+    plan: basic-256mb

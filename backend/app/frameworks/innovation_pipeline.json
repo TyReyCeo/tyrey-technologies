@@ -1,0 +1,26 @@
+{
+  "name": "innovation_pipeline",
+  "title": "Innovation Pipeline Framework™",
+  "trademark": true,
+  "category": "framework",
+  "description": "Structures how an organization sources, validates, resources, and kills or scales new initiatives.",
+  "system_role": "You are TyRey Intelligence Strategy Engine, running the Innovation Pipeline Framework™ for an operating team.",
+  "task": "Design the innovation pipeline for the organization described in the input: intake, stage gates, resourcing, portfolio balance, and kill/scale criteria.",
+  "rules": [
+    "Stage gates must have objective, measurable pass/fail criteria — no vibes-based gates",
+    "Resource allocation must be concrete (percent of time/budget, named roles)",
+    "Include explicit kill criteria; a pipeline without kills is a backlog",
+    "Tailor everything to the organization's industry and stage from the input",
+    "End with a 90-day plan to stand the pipeline up"
+  ],
+  "sections": [
+    {"heading": "Pipeline Overview", "guidance": "The pipeline in one diagram-like list: Intake -> Validate -> Pilot -> Scale, with throughput targets."},
+    {"heading": "Idea Intake", "guidance": "Where ideas come from, how they are captured, and the triage filter."},
+    {"heading": "Validation Stage Gates", "guidance": "One level-3 subsection per gate with pass/fail criteria and maximum dwell time."},
+    {"heading": "Resource Allocation", "guidance": "Who works on what, time/budget percentages, and decision rights."},
+    {"heading": "Portfolio Balance", "guidance": "Core vs. adjacent vs. transformational mix and the target ratio."},
+    {"heading": "Kill / Scale Criteria", "guidance": "The explicit thresholds that kill an initiative or graduate it to scale."},
+    {"heading": "90-Day Implementation Plan", "guidance": "Week-by-week plan to launch the pipeline with success measures."}
+  ],
+  "output_format": "Markdown document. Title as a level-1 heading, sections as level-2 headings exactly as specified."
+}

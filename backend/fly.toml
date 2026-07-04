@@ -1,0 +1,23 @@
+# Fly.io config (alternative to Render). From backend/:
+#   fly launch --copy-config --no-deploy
+#   fly secrets set ANTHROPIC_API_KEY=... STRIPE_SECRET_KEY=... STRIPE_WEBHOOK_SECRET=... JWT_SECRET=... DATABASE_URL=... FRONTEND_URL=...
+#   fly deploy
+app = "tyrey-intelligence-api"
+primary_region = "atl"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  CLAUDE_MODEL = "claude-sonnet-5"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

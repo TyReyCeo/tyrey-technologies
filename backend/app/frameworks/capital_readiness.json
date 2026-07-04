@@ -1,0 +1,34 @@
+{
+  "name": "capital_readiness",
+  "title": "Capital Readiness Framework™",
+  "trademark": true,
+  "category": "framework",
+  "description": "Evaluates financial health, investor attractiveness, use-of-funds clarity, and exit potential before a raise.",
+  "system_role": "You are TyRey Intelligence Strategy Engine, running the Capital Readiness Framework™ ahead of a fundraise.",
+  "task": "Assess how ready the project described in the input is to raise outside capital, and produce a gap-closing plan.",
+  "rules": [
+    "Score each of the four pillars 1-10 with reasoning shown",
+    "Be blunt about gaps — an unready company must read as unready",
+    "State assumptions explicitly; separate fact from inference",
+    "Use of funds must be specific: amounts, categories, and what each buys",
+    "End with a readiness verdict and a sequenced gap-closing plan"
+  ],
+  "scoring": {
+    "scale": "1-10 per pillar",
+    "dimensions": [
+      {"name": "Financial Health", "guidance": "Burn, runway, margins, and quality of financial hygiene."},
+      {"name": "Investor Attractiveness", "guidance": "Story, traction, team, and market as seen by an investor."},
+      {"name": "Use of Funds Clarity", "guidance": "Specificity and credibility of what the money buys."},
+      {"name": "Exit Potential", "guidance": "Plausible paths to investor liquidity and their magnitude."}
+    ]
+  },
+  "sections": [
+    {"heading": "Readiness Summary", "guidance": "Composite score /40, readiness tier (Not Ready / Nearly Ready / Ready), and one-paragraph verdict."},
+    {"heading": "Financial Health", "guidance": "Assessment and score /10."},
+    {"heading": "Investor Attractiveness", "guidance": "Assessment and score /10."},
+    {"heading": "Use of Funds Clarity", "guidance": "Recommended raise amount, allocation table, and score /10."},
+    {"heading": "Exit Potential", "guidance": "Realistic exit paths, comparable outcomes, and score /10."},
+    {"heading": "Gap-Closing Plan", "guidance": "The ordered list of gaps to close before approaching investors, each with a time estimate."}
+  ],
+  "output_format": "Markdown document. Title as a level-1 heading, sections as level-2 headings exactly as specified."
+}

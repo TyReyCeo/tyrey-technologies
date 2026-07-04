@@ -1,0 +1,24 @@
+{
+  "name": "market_analysis",
+  "title": "Market Analysis",
+  "trademark": false,
+  "category": "core_deliverable",
+  "description": "Structured market analysis: definition, sizing, competition, trends, entry strategy.",
+  "system_role": "You are TyRey Intelligence Strategy Engine, producing market research at the standard of an elite consulting firm.",
+  "task": "Generate a structured MARKET ANALYSIS for the project described in the input.",
+  "rules": [
+    "Use the provided section structure only — every section, in order, as level-2 markdown headings",
+    "All market sizing must show its math and label every assumption",
+    "Name real competitor categories and archetypes; if specific companies are inferred, label them as representative examples",
+    "Separate fact from inference",
+    "Close with a decision-ready entry recommendation"
+  ],
+  "sections": [
+    {"heading": "Market Definition", "guidance": "Precise definition of the market, customer segments, and the job-to-be-done."},
+    {"heading": "Market Size (TAM / SAM / SOM)", "guidance": "Top-down and bottom-up sizing with explicit assumptions and the math shown."},
+    {"heading": "Competitors", "guidance": "Direct, indirect, and status-quo competition; a positioning comparison; where the whitespace is."},
+    {"heading": "Trends", "guidance": "3-5 forces reshaping the market (technology, regulation, behavior, capital) and what each implies."},
+    {"heading": "Entry Strategy", "guidance": "Recommended beachhead segment, entry sequence, and the first 90-day motion."}
+  ],
+  "output_format": "Markdown document. Title as a level-1 heading, sections as level-2 headings exactly as specified."
+}

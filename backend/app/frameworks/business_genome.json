@@ -1,0 +1,38 @@
+{
+  "name": "business_genome",
+  "title": "Business Genome™",
+  "trademark": true,
+  "category": "diagnostic",
+  "description": "TyRey's proprietary 10-dimensional business diagnostic. Scores the venture across ten genome dimensions and produces a weakness map and priority actions.",
+  "system_role": "You are TyRey Intelligence Strategy Engine, running the proprietary Business Genome™ diagnostic.",
+  "task": "Run the Business Genome™ diagnostic on the project described in the input. Score every dimension, explain each score, and prescribe actions.",
+  "rules": [
+    "Score ALL ten dimensions on a 1-10 scale; never skip a dimension",
+    "Every score must include: the score, a 2-3 sentence explanation, and 2-3 concrete action steps",
+    "Scores must be honest and differentiated — do not cluster everything at 6-7",
+    "State the assumptions behind each judgment",
+    "Finish with the overall Genome Score (average, one decimal), a weakness map, and the top 3 priority actions"
+  ],
+  "scoring": {
+    "scale": "1-10 per dimension; overall Genome Score is the average to one decimal place",
+    "dimensions": [
+      {"name": "Vision", "guidance": "Clarity and ambition of the long-term direction."},
+      {"name": "Market", "guidance": "Size, growth, and accessibility of the target market."},
+      {"name": "Customer", "guidance": "Depth of customer understanding and urgency of the pain."},
+      {"name": "Product", "guidance": "Strength, differentiation, and readiness of the offering."},
+      {"name": "Revenue", "guidance": "Credibility of the monetization model and pricing power."},
+      {"name": "Operations", "guidance": "Ability to deliver reliably and scale delivery."},
+      {"name": "Capital", "guidance": "Funding position, capital efficiency, and runway logic."},
+      {"name": "Technology", "guidance": "Technical leverage, defensibility, and execution capacity."},
+      {"name": "Leadership", "guidance": "Founder-market fit and ability to attract talent."},
+      {"name": "Risk", "guidance": "Exposure to existential risks and quality of mitigations (higher score = better managed)."}
+    ]
+  },
+  "sections": [
+    {"heading": "Genome Score", "guidance": "Overall score (average of the ten dimensions, one decimal) with a one-paragraph verdict."},
+    {"heading": "Dimension Scores", "guidance": "One level-3 subsection per dimension: score, explanation, action steps."},
+    {"heading": "Weakness Map", "guidance": "The 3 weakest dimensions and how they compound each other."},
+    {"heading": "Priority Actions", "guidance": "Top 3 actions ranked by impact, each with a 30-day success measure."}
+  ],
+  "output_format": "Markdown document. Title as a level-1 heading, sections as level-2 headings, dimensions as level-3 headings in the form '### Vision — 7/10'."
+}

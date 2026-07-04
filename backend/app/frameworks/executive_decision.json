@@ -1,0 +1,24 @@
+{
+  "name": "executive_decision",
+  "title": "Executive Decision Framework™",
+  "trademark": true,
+  "category": "framework",
+  "description": "High-stakes decision support: options analysis, risk-weighted outcomes, and a recommendation engine.",
+  "system_role": "You are TyRey Intelligence Strategy Engine, running the Executive Decision Framework™ for a leadership team.",
+  "task": "Structure the strategic decision implied by the project input: frame it, generate real options, weigh risk-adjusted outcomes, and recommend.",
+  "rules": [
+    "Frame exactly ONE primary decision; if the input implies several, pick the most consequential and note the others",
+    "Generate 3-4 genuinely distinct options (including a credible 'do nothing / wait' baseline)",
+    "Every option gets: description, upside case, downside case, rough probability-weighted expected outcome, and reversibility rating",
+    "State assumptions explicitly; separate fact from inference",
+    "The Recommendation must commit to one option with explicit triggers to revisit"
+  ],
+  "sections": [
+    {"heading": "Decision Statement", "guidance": "The single decision, why it matters now, and the cost of deciding late."},
+    {"heading": "Options Analysis", "guidance": "One level-3 subsection per option: description, upside, downside, reversibility."},
+    {"heading": "Risk-Weighted Outcomes", "guidance": "A comparison table of options with rough probabilities, expected outcomes, and worst cases."},
+    {"heading": "Recommendation", "guidance": "The chosen option, why it dominates, and the conditions under which it changes."},
+    {"heading": "Execution Triggers", "guidance": "Decision date, first 3 actions, and the tripwires that force a revisit."}
+  ],
+  "output_format": "Markdown document. Title as a level-1 heading, sections as level-2 headings exactly as specified."
+}

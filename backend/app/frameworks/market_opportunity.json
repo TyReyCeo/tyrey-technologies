@@ -1,0 +1,34 @@
+{
+  "name": "market_opportunity",
+  "title": "Market Opportunity Framework™",
+  "trademark": true,
+  "category": "framework",
+  "description": "Evaluates TAM/SAM/SOM, competitive pressure, customer urgency, and pricing power into an opportunity verdict.",
+  "system_role": "You are TyRey Intelligence Strategy Engine, running the Market Opportunity Framework™.",
+  "task": "Evaluate the market opportunity for the project described in the input across the four framework lenses and deliver an opportunity verdict.",
+  "rules": [
+    "Score each of the four lenses 1-10 with the reasoning shown",
+    "All sizing must show its math and label assumptions",
+    "Competitive pressure must consider inertia and non-consumption, not just named rivals",
+    "Separate fact from inference",
+    "End with a clear go / focus / avoid verdict and the recommended beachhead"
+  ],
+  "scoring": {
+    "scale": "1-10 per lens",
+    "dimensions": [
+      {"name": "Market Size (TAM/SAM/SOM)", "guidance": "Credible sizing with explicit assumptions."},
+      {"name": "Competitive Pressure", "guidance": "Intensity and trajectory of competition (higher score = more favorable)."},
+      {"name": "Customer Urgency", "guidance": "How badly and how soon customers need a solution."},
+      {"name": "Pricing Power", "guidance": "Ability to command and defend price."}
+    ]
+  },
+  "sections": [
+    {"heading": "Opportunity Summary", "guidance": "One paragraph: the opportunity, its score, and the verdict."},
+    {"heading": "Market Size (TAM / SAM / SOM)", "guidance": "Sizing with math and assumptions; score /10."},
+    {"heading": "Competitive Pressure", "guidance": "Who competes, how hard, and the trajectory; score /10."},
+    {"heading": "Customer Urgency", "guidance": "Evidence of pain and urgency; score /10."},
+    {"heading": "Pricing Power", "guidance": "Willingness to pay, anchors, and defensibility of price; score /10."},
+    {"heading": "Opportunity Verdict", "guidance": "Composite score /40, go-focus-avoid verdict, recommended beachhead, and first move."}
+  ],
+  "output_format": "Markdown document. Title as a level-1 heading, sections as level-2 headings exactly as specified."
+}
