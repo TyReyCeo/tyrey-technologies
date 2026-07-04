@@ -118,6 +118,28 @@ class OrderOut(BaseModel):
     created_at: datetime.datetime
 
 
+# ---------- Leads ----------
+class LeadCreate(BaseModel):
+    service: str
+    name: str = Field(min_length=1, max_length=200)
+    email: EmailStr
+    company: str = ""
+    message: str = ""
+
+
+class LeadOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    service: str
+    name: str
+    email: str
+    company: str
+    message: str
+    status: str
+    created_at: datetime.datetime
+
+
 # ---------- Billing ----------
 class SubscribeRequest(BaseModel):
     plan: str  # starter | pro | executive

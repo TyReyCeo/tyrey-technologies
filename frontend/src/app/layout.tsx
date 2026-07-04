@@ -20,9 +20,9 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TyRey Intelligence™ — Investor-Ready Business Packs in Minutes",
+  title: "TyRey Technologies, Inc. — Intelligence Infrastructure for Modern Business",
   description:
-    "AI-generated business plans, investor memos, and market analysis used by founders preparing to raise capital. By TyRey Technologies, Inc.",
+    "AI-powered strategy, deal flow, and executive support. Home of TyRey Intelligence™, the AI Due Diligence Studio, Acquisition Scout, and CEO in a Box.",
 };
 
 export default function RootLayout({

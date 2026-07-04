@@ -62,6 +62,21 @@ class Document(Base):
     project: Mapped["Project"] = relationship(back_populates="documents")
 
 
+class Lead(Base):
+    """Lead captured from the marketing site's service pages."""
+
+    __tablename__ = "leads"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid)
+    service: Mapped[str] = mapped_column(String, index=True)  # due-diligence-studio | acquisition-scout | ceo-in-a-box | general
+    name: Mapped[str] = mapped_column(String)
+    email: Mapped[str] = mapped_column(String, index=True)
+    company: Mapped[str] = mapped_column(String, default="")
+    message: Mapped[str] = mapped_column(Text, default="")
+    status: Mapped[str] = mapped_column(String, default="new")  # new | contacted | qualified | won | lost
+    created_at: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), default=_now)
+
+
 class Order(Base):
     """A one-time funnel purchase (Phase 8: idea -> preview -> paywall -> pack)."""
 

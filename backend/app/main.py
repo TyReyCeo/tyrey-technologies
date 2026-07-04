@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
 from .database import init_db
-from .routers import auth, billing, documents, funnel, projects
+from .routers import auth, billing, documents, funnel, leads, projects
 
 logging.basicConfig(level=logging.INFO)
 
@@ -32,6 +32,7 @@ app.include_router(auth.router)
 app.include_router(projects.router)
 app.include_router(documents.router)
 app.include_router(billing.router)
+app.include_router(leads.router)
 
 init_db()
 
