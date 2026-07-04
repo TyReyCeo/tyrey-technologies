@@ -61,17 +61,18 @@ export default function OgImage() {
         >
           <div
             style={{
-              fontSize: 74,
-              lineHeight: 1.1,
+              display: "flex",
+              flexDirection: "column",
+              fontSize: 70,
+              lineHeight: 1.12,
               color: "#f3edda",
-              maxWidth: 980,
             }}
           >
-            Building the{" "}
-            <span style={{ color: "#e2c987", fontStyle: "italic" }}>
+            <div style={{ display: "flex" }}>Building the</div>
+            <div style={{ display: "flex", color: "#e2c987", fontStyle: "italic" }}>
               Intelligence Infrastructure
-            </span>{" "}
-            for Modern Business.
+            </div>
+            <div style={{ display: "flex" }}>for Modern Business.</div>
           </div>
           <div style={{ fontSize: 28, color: "#d8d2bd" }}>
             AI-powered strategy, deal flow, and executive support.
