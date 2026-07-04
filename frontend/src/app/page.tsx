@@ -408,7 +408,15 @@ export default function Home() {
           gap: 14,
         }}
       >
-        <span className="mono-label">© TyRey Technologies, Inc.</span>
+        <span className="mono-label" style={{ display: "flex", gap: 18 }}>
+          © TyRey Technologies, Inc.
+          <Link href="/terms" style={{ color: "var(--brass)" }}>
+            Terms
+          </Link>
+          <Link href="/privacy" style={{ color: "var(--brass)" }}>
+            Privacy
+          </Link>
+        </span>
         <span className="mono-label" style={{ maxWidth: 520, textAlign: "right" }}>
           Outputs are planning tools — not guarantees of business success or
           financial/legal advice.

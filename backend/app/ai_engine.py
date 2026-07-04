@@ -69,6 +69,20 @@ def _call_claude(system: str, user: str) -> str:
     return "".join(block.text for block in response.content if block.type == "text")
 
 
+def validate_structure(framework: dict, content: str) -> list[str]:
+    """AI-quality gate: verify every required framework section is present.
+
+    Returns missing section headings (empty = valid). Deterministic and free —
+    no extra model call.
+    """
+    lower = content.lower()
+    return [
+        s["heading"]
+        for s in framework["sections"]
+        if s["heading"].lower() not in lower
+    ]
+
+
 def generate(framework_name: str, context: dict[str, str]) -> str:
     """Run one intelligence module: framework injection -> Claude -> markdown."""
     framework = load_framework(framework_name)
@@ -78,7 +92,22 @@ def generate(framework_name: str, context: dict[str, str]) -> str:
         logger.warning("ANTHROPIC_API_KEY not set — returning demo output for %s", framework_name)
         return _demo_output(framework, context)
 
-    return _call_claude(system, user)
+    content = _call_claude(system, user)
+
+    # Quality gate: one corrective retry if required sections are missing.
+    missing = validate_structure(framework, content)
+    if missing:
+        logger.warning("Output for %s missing sections %s — corrective retry", framework_name, missing)
+        corrective = (
+            user
+            + "\n\nYOUR PREVIOUS ATTEMPT WAS REJECTED because these required "
+            f"sections were missing: {', '.join(missing)}. Regenerate the full "
+            "document including EVERY required section, using the exact section "
+            "headings given."
+        )
+        content = _call_claude(system, corrective)
+
+    return content
 
 
 def generate_preview(idea: str, industry: str, stage: str) -> str:

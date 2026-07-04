@@ -1,0 +1,17 @@
+{
+  "description": "Golden-set regression tests for the TyRey Intelligence Engine. Re-run whenever a prompt, framework, or model version changes. Each case is generated and checked against its framework's required section structure.",
+  "cases": [
+    {"id": "bp-saas-idea", "module": "business_plan", "context": {"project_name": "CloudKitchen OS", "objective": "start_company", "industry": "Restaurant SaaS", "stage": "idea", "notes": "B2B platform for ghost kitchen operations"}},
+    {"id": "bp-hardware-growth", "module": "business_plan", "context": {"project_name": "SolarEdge Micro", "objective": "expand_market", "industry": "Renewable energy hardware", "stage": "growth"}},
+    {"id": "memo-seed-fintech", "module": "investor_memo", "context": {"project_name": "PayTrail", "objective": "raise_capital", "industry": "Fintech", "stage": "early", "notes": "$1.5M seed, payments reconciliation for SMBs"}},
+    {"id": "memo-acquisition", "module": "investor_memo", "context": {"project_name": "Acquire MidwestHVAC Co", "objective": "acquire_business", "industry": "Home services", "stage": "growth"}},
+    {"id": "market-dtc", "module": "market_analysis", "context": {"project_name": "BBQ Box", "objective": "start_company", "industry": "DTC food subscription", "stage": "idea"}},
+    {"id": "market-govtech", "module": "market_analysis", "context": {"project_name": "CityPermit AI", "objective": "expand_market", "industry": "GovTech", "stage": "early"}},
+    {"id": "genome-early-saas", "module": "business_genome", "context": {"project_name": "TyRey Intelligence", "objective": "raise_capital", "industry": "AI SaaS", "stage": "early"}, "expect_patterns": ["\\b\\d{1,2}/10\\b", "Genome Score"]},
+    {"id": "genome-services", "module": "business_genome", "context": {"project_name": "Legacy Accounting Partners", "objective": "improve_operations", "industry": "Professional services", "stage": "growth"}, "expect_patterns": ["\\b\\d{1,2}/10\\b", "Genome Score"]},
+    {"id": "capital-prese", "module": "capital_readiness", "context": {"project_name": "NeuroFit", "objective": "raise_capital", "industry": "Digital health", "stage": "idea"}},
+    {"id": "opportunity-vertical-ai", "module": "market_opportunity", "context": {"project_name": "LegalOps Copilot", "objective": "start_company", "industry": "Legal tech", "stage": "idea"}},
+    {"id": "decision-pricing", "module": "executive_decision", "context": {"project_name": "Pricing model change", "objective": "improve_operations", "industry": "B2B SaaS", "stage": "growth", "notes": "Deciding between usage-based and seat-based pricing by Q3"}},
+    {"id": "score-tracking", "module": "intelligence_score", "context": {"project_name": "TyRey Intelligence", "objective": "raise_capital", "industry": "AI SaaS", "stage": "early"}, "expect_patterns": ["\\b\\d{1,2}/20\\b"]}
+  ]
+}
