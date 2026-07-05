@@ -16,6 +16,8 @@ export default function AcquisitionScout() {
       title="Qualified acquisition targets,"
       titleAccent="delivered every week."
       subtitle="An AI workflow that continuously scans for companies for sale, owners nearing retirement, distressed assets, overlooked industrial properties, and AI infrastructure opportunities — then qualifies them before they reach your inbox."
+      image="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1800&q=80"
+      imageAlt="Modern glass office towers"
       deliverablesHeading="What the Scout finds"
       deliverables={[
         { name: "Companies for Sale", desc: "Listed and off-market businesses matched to your mandate, size range, and geography." },

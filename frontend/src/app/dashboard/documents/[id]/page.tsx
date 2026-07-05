@@ -135,9 +135,9 @@ export default function DocumentViewer() {
             style={{
               flexGrow: 1,
               minWidth: 260,
-              background: "rgba(243,237,218,0.04)",
-              border: "1px solid var(--line)",
-              color: "var(--parchment)",
+              background: "#ffffff",
+              border: "1px solid var(--rule)",
+              color: "var(--ink)",
               padding: "12px 16px",
               fontSize: 15,
             }}

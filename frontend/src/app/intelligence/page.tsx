@@ -10,7 +10,7 @@ const TIERS = [
     id: "starter",
     price: "$29",
     label: "Starter Pack",
-    includes: ["Business Plan", "Market Overview"],
+    includes: ["Business Plan", "Market Analysis"],
   },
   {
     id: "investor",
@@ -307,7 +307,7 @@ export default function Home() {
                   alignItems: "center",
                   justifyContent: "center",
                   background:
-                    "linear-gradient(180deg, transparent, rgba(11,21,18,0.88) 55%)",
+                    "linear-gradient(180deg, transparent, rgba(250,247,241,0.94) 55%)",
                 }}
               >
                 <span

@@ -54,8 +54,8 @@ export default function DashboardLayout({
           style={{
             width: 26,
             height: 26,
-            borderColor: "rgba(200,169,94,0.25)",
-            borderTopColor: "var(--brass)",
+            borderColor: "rgba(110,43,54,0.25)",
+            borderTopColor: "var(--oxblood)",
           }}
         />
       </main>
@@ -105,7 +105,7 @@ export default function DashboardLayout({
                   alignItems: "baseline",
                   padding: "11px 14px",
                   borderLeft: `2px solid ${active ? "var(--brass)" : "transparent"}`,
-                  background: active ? "rgba(200,169,94,0.08)" : "transparent",
+                  background: active ? "rgba(110,43,54,0.06)" : "transparent",
                   transition: "background 0.2s ease",
                 }}
               >

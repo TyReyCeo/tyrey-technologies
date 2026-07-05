@@ -1,259 +1,386 @@
 /**
  * TyRey Technologies, Inc. — corporate homepage.
- * Building the Intelligence Infrastructure for Modern Business.
+ * "The Firm" — light editorial consultancy design.
  */
 import Link from "next/link";
 import { SiteFooter, SiteNav } from "@/components/Site";
 
-const SECTION_PAD = "clamp(24px, 6vw, 72px)";
-
 const SERVICES = [
   {
     href: "/services/due-diligence-studio",
-    tag: "Project-based · $2,500–$15,000",
+    numeral: "01",
     name: "AI Due Diligence Studio",
-    desc: "Investment memorandums, business plans, pitch decks, financial models, and investor outreach packages — delivered in days, not weeks.",
-    cta: "Explore the Studio →",
+    desc: "Investment memorandums, business plans, pitch decks, and financial models — delivered in days, not weeks.",
+    tag: "Project · $2,500–$15,000",
   },
   {
     href: "/services/acquisition-scout",
-    tag: "Weekly deal flow · Success fees",
+    numeral: "02",
     name: "Acquisition Scout",
-    desc: "An AI workflow that surfaces qualified acquisition targets every week — companies for sale, retiring owners, distressed assets, and overlooked opportunities.",
-    cta: "See how it works →",
+    desc: "Qualified acquisition targets surfaced every week — companies for sale, retiring owners, overlooked opportunities.",
+    tag: "Weekly deal flow · Success fees",
   },
   {
     href: "/services/ceo-in-a-box",
-    tag: "Subscription · $995/month",
+    numeral: "03",
     name: "CEO in a Box",
-    desc: "Your outsourced executive office. Unlimited help with proposals, SOPs, marketing, contract drafts, investor materials, and strategic planning.",
-    cta: "View membership →",
+    desc: "Your outsourced executive office — unlimited proposals, SOPs, investor materials, and strategic planning.",
+    tag: "Subscription · $995/month",
   },
 ];
 
-const WHY = [
-  {
-    name: "Days, not weeks",
-    desc: "Deliverables that traditionally take consulting firms weeks arrive in days — investment memos, business plans, financial models, and market research.",
-  },
-  {
-    name: "Deal flow that compounds",
-    desc: "Our Acquisition Scout engine works every week, surfacing qualified targets for private equity firms, family offices, investment banks, and search funds.",
-  },
-  {
-    name: "An executive office on demand",
-    desc: "CEO in a Box gives growing businesses unlimited access to executive-grade documents and strategy for a flat monthly rate.",
-  },
+const PROOF = [
+  ["<10 min", "Idea to investor pack"],
+  ["Up to 5 documents", "Per business pack"],
+  ["From $29", "No credit card to preview"],
+];
+
+const PACK_CONTENTS = [
+  "Business Plan",
+  "Investor Memo",
+  "Market Analysis",
+  "Business Genome™ Score",
+  "Intelligence Score™",
 ];
 
 export default function Home() {
   return (
-    <main style={{ position: "relative", zIndex: 2 }}>
+    <main>
       <SiteNav />
 
       {/* ---------- hero ---------- */}
       <section
         style={{
-          padding: `clamp(60px, 10vh, 120px) ${SECTION_PAD} 60px`,
-          maxWidth: 1180,
-          margin: "0 auto",
+          padding: "110px var(--section-pad) 90px",
+          borderBottom: "1px solid var(--rule)",
         }}
       >
-        <p className="eyebrow rise rise-1">TyRey Technologies, Inc.</p>
-        <h1
-          className="display rise rise-2"
-          style={{
-            fontSize: "clamp(42px, 6.5vw, 84px)",
-            maxWidth: 940,
-            margin: "28px 0 26px",
-          }}
-        >
-          Building the{" "}
-          <em style={{ color: "var(--brass-bright)", fontStyle: "italic" }}>
-            Intelligence Infrastructure
-          </em>{" "}
-          for Modern Business.
-        </h1>
-        <p
-          className="rise rise-3"
-          style={{
-            fontSize: 18,
-            color: "var(--parchment-dim)",
-            maxWidth: 580,
-            lineHeight: 1.65,
-          }}
-        >
-          AI-powered strategy, deal flow, and executive support — from a single
-          idea to your next acquisition.
-        </p>
-        <div
-          className="rise rise-4"
-          style={{ display: "flex", gap: 16, marginTop: 32, flexWrap: "wrap" }}
-        >
-          <Link href="/intelligence" className="btn">
-            Try TyRey Intelligence™ Free →
-          </Link>
-          <a href="#services" className="btn btn--ghost">
-            Explore Our Services
-          </a>
-        </div>
-      </section>
-
-      {/* ---------- flagship platform ---------- */}
-      <section style={{ padding: `0 ${SECTION_PAD} 80px`, maxWidth: 1180, margin: "0 auto" }}>
-        <div
-          className="panel panel--corners rise rise-5"
-          style={{
-            padding: "clamp(28px, 4vw, 48px)",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: 36,
-            alignItems: "center",
-          }}
-        >
+        <div className="home-hero-grid">
           <div>
-            <p className="eyebrow">Flagship Platform</p>
-            <h2 className="display" style={{ fontSize: "clamp(26px, 3.4vw, 40px)", margin: "18px 0 12px" }}>
-              TyRey Intelligence™
-            </h2>
-            <p style={{ color: "var(--parchment-dim)", fontSize: 16, lineHeight: 1.65 }}>
-              The strategy engine behind everything we build. Describe your idea
-              and get an investor-ready business pack — business plan, investor
-              memo, market analysis, and your Business Genome™ Score — in under
-              10 minutes. Free preview, no credit card.
+            <p
+              className="eyebrow rise rise-1"
+              style={{ margin: "0 0 30px" }}
+            >
+              TyRey Technologies, Inc.
             </p>
-            <div style={{ marginTop: 22, display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <h1 className="home-hero-h1 rise rise-2">
+              The intelligence infrastructure for modern business
+              <span style={{ color: "var(--oxblood)" }}>.</span>
+            </h1>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 28,
+              paddingBottom: 8,
+            }}
+          >
+            <p
+              className="rise rise-3"
+              style={{
+                margin: 0,
+                fontSize: 17,
+                lineHeight: 1.7,
+                color: "var(--ink-soft)",
+              }}
+            >
+              AI-powered strategy, deal flow, and executive support — from a
+              single idea to your next acquisition.
+            </p>
+            <div
+              className="rise rise-4"
+              style={{ display: "flex", flexDirection: "column", gap: 12 }}
+            >
               <Link href="/intelligence" className="btn">
-                Get My Free Idea Score →
+                Get your free Idea Score
               </Link>
-              <Link href="/signup" className="btn btn--ghost">
-                Full Platform Access
+              <Link
+                href="/services/due-diligence-studio#contact"
+                className="btn btn--ghost"
+              >
+                Talk to us about a project
               </Link>
             </div>
           </div>
-          <div style={{ display: "grid", gap: 22 }}>
-            {[
-              ["<10 min", "idea → investor pack"],
-              ["4 docs", "per Investor Pack"],
-              ["$29+", "starting price"],
-            ].map(([stat, label]) => (
-              <div
-                key={label}
-                style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  gap: 16,
-                  borderBottom: "1px solid var(--line)",
-                  paddingBottom: 14,
-                }}
-              >
-                <span className="display" style={{ fontSize: 34, color: "var(--brass-bright)" }}>
-                  {stat}
+        </div>
+      </section>
+
+      {/* ---------- photo band ---------- */}
+      <div
+        style={{
+          borderBottom: "1px solid var(--rule)",
+          height: 440,
+          overflow: "hidden",
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1800&q=80"
+          alt="Modern glass office architecture"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            filter: "sepia(0.22) contrast(1.02) brightness(1.02)",
+          }}
+        />
+      </div>
+
+      {/* ---------- proof strip ---------- */}
+      <div className="proof-strip">
+        {PROOF.map(([stat, caption]) => (
+          <div key={caption}>
+            <p
+              style={{
+                margin: 0,
+                fontFamily: "var(--font-display)",
+                fontSize: 44,
+                lineHeight: 1.1,
+              }}
+            >
+              {stat}
+            </p>
+            <p
+              style={{
+                margin: "6px 0 0",
+                fontSize: 13,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "var(--ink-faint)",
+              }}
+            >
+              {caption}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* ---------- services ledger ---------- */}
+      <section
+        style={{
+          padding: "80px var(--section-pad)",
+          borderBottom: "1px solid var(--rule)",
+        }}
+      >
+        <div className="ledger-grid">
+          <div>
+            <p className="eyebrow" style={{ margin: "0 0 16px" }}>
+              Services
+            </p>
+            <h2
+              style={{
+                margin: 0,
+                fontFamily: "var(--font-display)",
+                fontWeight: 400,
+                fontSize: 44,
+                lineHeight: 1.1,
+              }}
+            >
+              Three ways we work with you
+            </h2>
+            <p
+              style={{
+                margin: "20px 0 0",
+                fontSize: 15,
+                lineHeight: 1.7,
+                color: "var(--ink-soft)",
+              }}
+            >
+              Powered by the TyRey Intelligence engine, delivered with a human
+              touch.
+            </p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=900&q=80"
+              alt="Advisors in discussion"
+              style={{
+                width: "100%",
+                height: 280,
+                objectFit: "cover",
+                marginTop: 36,
+                filter: "sepia(0.22) contrast(1.02)",
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {SERVICES.map((s) => (
+              <Link key={s.href} href={s.href} className="ledger-row">
+                <span
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: 28,
+                    color: "var(--numeral)",
+                  }}
+                >
+                  {s.numeral}
                 </span>
-                <span className="mono-label">{label}</span>
-              </div>
+                <div>
+                  <h3
+                    style={{
+                      margin: "0 0 8px",
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 400,
+                      fontSize: 26,
+                    }}
+                  >
+                    {s.name}
+                  </h3>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: 15,
+                      lineHeight: 1.65,
+                      color: "var(--ink-soft)",
+                    }}
+                  >
+                    {s.desc}
+                  </p>
+                </div>
+                <span
+                  style={{
+                    fontSize: 13,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "var(--oxblood)",
+                  }}
+                >
+                  {s.tag}
+                </span>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------- three service lines ---------- */}
+      {/* ---------- flagship band (inverted) ---------- */}
       <section
-        id="services"
-        style={{ padding: `0 ${SECTION_PAD} 80px`, maxWidth: 1180, margin: "0 auto" }}
+        style={{
+          padding: "80px var(--section-pad)",
+          background: "var(--ink)",
+          color: "var(--paper-on-ink)",
+        }}
       >
-        <p className="eyebrow" style={{ marginBottom: 10 }}>
-          Services
-        </p>
-        <h2 className="display" style={{ fontSize: "clamp(26px, 3.4vw, 40px)", marginBottom: 8 }}>
-          Three ways we work with you
-        </h2>
-        <p style={{ color: "var(--parchment-dim)", maxWidth: 620, marginBottom: 30 }}>
-          Powered by the TyRey Intelligence engine, delivered with a human touch.
-        </p>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: 20,
-          }}
-        >
-          {SERVICES.map((s) => (
-            <Link
-              key={s.href}
-              href={s.href}
-              className="panel"
-              style={{ padding: 28, display: "flex", flexDirection: "column", gap: 12 }}
+        <div className="flagship-grid">
+          <div>
+            <p
+              style={{
+                margin: "0 0 16px",
+                fontSize: 13,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "var(--oxblood-tint)",
+                fontWeight: 600,
+              }}
             >
-              <span className="mono-label" style={{ color: "var(--brass)" }}>
-                {s.tag}
-              </span>
-              <h3 className="display" style={{ fontSize: 22 }}>
-                {s.name}
-              </h3>
-              <p style={{ fontSize: 14.5, color: "var(--parchment-dim)", lineHeight: 1.65, flexGrow: 1 }}>
-                {s.desc}
-              </p>
-              <span className="mono-label" style={{ color: "var(--brass-bright)" }}>
-                {s.cta}
-              </span>
+              Flagship platform
+            </p>
+            <h2
+              style={{
+                margin: "0 0 18px",
+                fontFamily: "var(--font-display)",
+                fontWeight: 400,
+                fontSize: 52,
+                lineHeight: 1.05,
+              }}
+            >
+              TyRey Intelligence™
+            </h2>
+            <p
+              style={{
+                margin: "0 0 30px",
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "var(--dim-on-ink)",
+                maxWidth: 560,
+              }}
+            >
+              Describe your idea and receive an investor-ready business pack —
+              business plan, investor memo, market analysis, and your Business
+              Genome™ Score — in under ten minutes.
+            </p>
+            <Link href="/intelligence" className="btn btn--paper">
+              Start free — no credit card
             </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* ---------- why TyRey ---------- */}
-      <section style={{ padding: `0 ${SECTION_PAD} 80px`, maxWidth: 1180, margin: "0 auto" }}>
-        <p className="eyebrow" style={{ marginBottom: 10 }}>
-          Why TyRey
-        </p>
-        <h2 className="display" style={{ fontSize: "clamp(26px, 3.4vw, 40px)", marginBottom: 30 }}>
-          Speed of AI. Judgment of an operator.
-        </h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: 20,
-          }}
-        >
-          {WHY.map((w) => (
-            <div key={w.name} className="panel" style={{ padding: 26 }}>
-              <h3 className="display" style={{ fontSize: 19, marginBottom: 8 }}>
-                {w.name}
-              </h3>
-              <p style={{ fontSize: 14.5, color: "var(--parchment-dim)", lineHeight: 1.65 }}>
-                {w.desc}
-              </p>
+          </div>
+          <div
+            style={{
+              border: "1px solid rgba(250,247,241,0.2)",
+              padding: 36,
+            }}
+          >
+            <p
+              style={{
+                margin: "0 0 24px",
+                fontSize: 12,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--oxblood-tint)",
+              }}
+            >
+              What&apos;s in a pack
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {PACK_CONTENTS.map((item, i) => (
+                <span
+                  key={item}
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: 21,
+                    borderBottom:
+                      i < PACK_CONTENTS.length - 1
+                        ? "1px solid rgba(250,247,241,0.14)"
+                        : "none",
+                    paddingBottom: i < PACK_CONTENTS.length - 1 ? 14 : 0,
+                  }}
+                >
+                  {item}
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
       {/* ---------- final CTA ---------- */}
       <section
         style={{
-          padding: `0 ${SECTION_PAD} 90px`,
-          maxWidth: 1180,
-          margin: "0 auto",
+          padding: "90px var(--section-pad)",
           textAlign: "center",
+          borderBottom: "1px solid var(--rule)",
         }}
       >
         <h2
-          className="display"
-          style={{ fontSize: "clamp(26px, 3.4vw, 40px)", maxWidth: 700, margin: "0 auto 12px" }}
+          style={{
+            margin: "0 auto 14px",
+            maxWidth: 720,
+            fontFamily: "var(--font-display)",
+            fontWeight: 400,
+            fontSize: 48,
+            lineHeight: 1.1,
+          }}
         >
-          Ready to put intelligence to work for your business?
+          Ready to put intelligence to work?
         </h2>
-        <p style={{ color: "var(--parchment-dim)", marginBottom: 26 }}>
+        <p style={{ margin: "0 0 32px", color: "var(--ink-soft)", fontSize: 16 }}>
           Start free with TyRey Intelligence™, or talk to us about a project.
         </p>
-        <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-          <Link href="/intelligence" className="btn">
-            Start Free →
+        <div
+          style={{
+            display: "flex",
+            gap: 14,
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <Link href="/intelligence" className="btn btn--accent">
+            Start free
           </Link>
-          <Link href="/services/due-diligence-studio#contact" className="btn btn--ghost">
-            Request a Consultation
+          <Link
+            href="/services/due-diligence-studio#contact"
+            className="btn btn--ghost"
+          >
+            Request a consultation
           </Link>
         </div>
       </section>

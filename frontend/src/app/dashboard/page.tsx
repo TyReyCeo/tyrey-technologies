@@ -209,7 +209,7 @@ export default function ProjectsPage() {
                 className="mono-label"
                 style={{
                   color: "var(--emerald)",
-                  border: "1px solid rgba(59,165,127,0.35)",
+                  border: "1px solid rgba(110,43,54,0.35)",
                   padding: "4px 10px",
                 }}
               >

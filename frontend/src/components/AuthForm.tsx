@@ -41,7 +41,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
         zIndex: 2,
       }}
     >
-      <div style={{ width: "100%", maxWidth: 440 }}>
+      <div style={{ width: "100%", maxWidth: 420 }}>
         <Link
           href="/"
           className="display"

@@ -1,13 +1,13 @@
 /**
  * Social-share (Open Graph) image, generated at build time.
- * Matches the dossier design system: ink canvas, brass accents.
+ * Matches "The Firm" design system: ivory paper, ink serif, oxblood accent.
  */
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
 export const alt =
-  "TyRey Technologies — Building the Intelligence Infrastructure for Modern Business";
+  "TyRey Technologies — The intelligence infrastructure for modern business";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -21,12 +21,12 @@ export default function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0b1512",
+          background: "#faf7f1",
           padding: 72,
           fontFamily: "Georgia, serif",
         }}
       >
-        {/* corner frame */}
+        {/* hairline frame */}
         <div
           style={{
             position: "absolute",
@@ -34,22 +34,19 @@ export default function OgImage() {
             left: 36,
             right: 36,
             bottom: 36,
-            border: "1px solid rgba(212, 193, 140, 0.35)",
+            border: "1px solid #e2ddd0",
             display: "flex",
           }}
         />
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            gap: 18,
-            fontSize: 26,
+            fontSize: 24,
             letterSpacing: 6,
-            color: "#c8a95e",
+            color: "#6e2b36",
             textTransform: "uppercase",
           }}
         >
-          <div style={{ width: 46, height: 2, background: "#c8a95e", display: "flex" }} />
           TyRey Technologies, Inc.
         </div>
         <div
@@ -63,18 +60,18 @@ export default function OgImage() {
             style={{
               display: "flex",
               flexDirection: "column",
-              fontSize: 70,
-              lineHeight: 1.12,
-              color: "#f3edda",
+              fontSize: 76,
+              lineHeight: 1.06,
+              color: "#1c1916",
             }}
           >
-            <div style={{ display: "flex" }}>Building the</div>
-            <div style={{ display: "flex", color: "#e2c987", fontStyle: "italic" }}>
-              Intelligence Infrastructure
+            <div style={{ display: "flex" }}>The intelligence</div>
+            <div style={{ display: "flex" }}>infrastructure for</div>
+            <div style={{ display: "flex" }}>
+              modern business<span style={{ color: "#6e2b36" }}>.</span>
             </div>
-            <div style={{ display: "flex" }}>for Modern Business.</div>
           </div>
-          <div style={{ fontSize: 28, color: "#d8d2bd" }}>
+          <div style={{ display: "flex", fontSize: 27, color: "#55504a" }}>
             AI-powered strategy, deal flow, and executive support.
           </div>
         </div>
@@ -82,9 +79,9 @@ export default function OgImage() {
           style={{
             display: "flex",
             gap: 40,
-            fontSize: 21,
+            fontSize: 20,
             letterSpacing: 3,
-            color: "#c8a95e",
+            color: "#8a847a",
             textTransform: "uppercase",
           }}
         >

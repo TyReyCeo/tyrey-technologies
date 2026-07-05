@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
-import { Archivo, Fraunces, IBM_Plex_Mono } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-fraunces",
-  axes: ["opsz"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
 });
 
-const archivo = Archivo({
-  subsets: ["latin"],
-  variable: "--font-archivo",
-});
-
-const plexMono = IBM_Plex_Mono({
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-plex-mono",
+  variable: "--font-instrument-sans",
 });
 
 export const metadata: Metadata = {
@@ -46,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${fraunces.variable} ${archivo.variable} ${plexMono.variable}`}
+        className={`${instrumentSerif.variable} ${instrumentSans.variable}`}
       >
         {children}
       </body>

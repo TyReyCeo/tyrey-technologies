@@ -22,6 +22,8 @@ export default function CeoInABox() {
       title="Your outsourced executive office,"
       titleAccent="for a flat monthly rate."
       subtitle="Unlimited help with proposals, employee manuals, marketing, customer emails, SOPs, contract drafts, investor materials, and strategic planning — everything a chief of staff, ops lead, and strategy consultant would do, on subscription."
+      image="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1800&q=80"
+      imageAlt="Executive office interior"
       deliverablesHeading="Unlimited requests across"
       deliverables={[
         { name: "Proposals & Bids", desc: "Client proposals, RFP responses, and quotes that win work — turned around fast." },

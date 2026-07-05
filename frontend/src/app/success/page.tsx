@@ -76,8 +76,8 @@ function SuccessInner() {
               style={{
                 width: 22,
                 height: 22,
-                borderColor: "rgba(200,169,94,0.25)",
-                borderTopColor: "var(--brass)",
+                borderColor: "rgba(110,43,54,0.25)",
+                borderTopColor: "var(--oxblood)",
               }}
             />
           </div>

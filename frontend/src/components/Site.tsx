@@ -9,7 +9,7 @@ import { useState } from "react";
 import { api } from "@/lib/api";
 
 const NAV_LINKS = [
-  { href: "/intelligence", label: "TyRey Intelligence™" },
+  { href: "/intelligence", label: "Intelligence Platform" },
   { href: "/services/due-diligence-studio", label: "Due Diligence Studio" },
   { href: "/services/acquisition-scout", label: "Acquisition Scout" },
   { href: "/services/ceo-in-a-box", label: "CEO in a Box" },
@@ -22,39 +22,38 @@ export function SiteNav() {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "26px clamp(24px, 6vw, 72px)",
-        borderBottom: "1px solid var(--line)",
+        padding: "26px var(--section-pad)",
+        borderBottom: "1px solid var(--rule)",
         flexWrap: "wrap",
         gap: 16,
       }}
     >
-      <Link href="/" style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-        <span className="display" style={{ fontSize: 21, color: "var(--parchment)" }}>
-          TyRey Technologies
-        </span>
-        <span className="mono-label" style={{ color: "var(--brass)" }}>
-          Inc.
-        </span>
-      </Link>
-      <nav
+      <Link
+        href="/"
         style={{
-          display: "flex",
-          gap: 22,
-          alignItems: "center",
-          flexWrap: "wrap",
+          fontFamily: "var(--font-display)",
+          fontSize: 24,
+          letterSpacing: "0.01em",
+          color: "var(--ink)",
         }}
       >
+        TyRey Technologies
+      </Link>
+      <nav className="nav-links">
         {NAV_LINKS.map((l) => (
-          <Link
-            key={l.href}
-            href={l.href}
-            className="mono-label"
-            style={{ letterSpacing: "0.14em" }}
-          >
+          <Link key={l.href} href={l.href}>
             {l.label}
           </Link>
         ))}
-        <Link href="/login" className="btn btn--ghost btn--small">
+        <Link
+          href="/login"
+          style={{
+            fontSize: 14,
+            color: "var(--oxblood)",
+            borderBottom: "1px solid var(--oxblood)",
+            paddingBottom: 2,
+          }}
+        >
           Sign in
         </Link>
       </nav>
@@ -66,59 +65,37 @@ export function SiteFooter() {
   return (
     <footer
       style={{
-        borderTop: "1px solid var(--line)",
-        padding: "40px clamp(24px, 6vw, 72px)",
         display: "flex",
         justifyContent: "space-between",
+        alignItems: "baseline",
+        padding: "32px var(--section-pad)",
+        fontSize: 13,
+        color: "var(--ink-faint)",
         flexWrap: "wrap",
-        gap: 24,
+        gap: 16,
       }}
     >
-      <div style={{ maxWidth: 360 }}>
-        <span className="display" style={{ fontSize: 18 }}>
-          TyRey Technologies
-        </span>
-        <p
-          style={{
-            marginTop: 8,
-            fontSize: 13.5,
-            color: "var(--parchment-dim)",
-            lineHeight: 1.6,
-          }}
-        >
-          Building the Intelligence Infrastructure for Modern Business.
-        </p>
-      </div>
-      <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
-        <div style={{ display: "grid", gap: 8 }}>
-          <span className="mono-label" style={{ color: "var(--brass)" }}>
-            Products
-          </span>
-          {NAV_LINKS.map((l) => (
-            <Link key={l.href} href={l.href} className="mono-label">
-              {l.label}
-            </Link>
-          ))}
-        </div>
-        <div style={{ display: "grid", gap: 8, alignContent: "start" }}>
-          <span className="mono-label" style={{ color: "var(--brass)" }}>
-            Company
-          </span>
-          <Link href="/terms" className="mono-label">
-            Terms
-          </Link>
-          <Link href="/privacy" className="mono-label">
-            Privacy
-          </Link>
-        </div>
-      </div>
-      <p
-        className="mono-label"
-        style={{ width: "100%", borderTop: "1px solid var(--line)", paddingTop: 18 }}
+      <span
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: 17,
+          color: "var(--ink)",
+        }}
       >
-        © {new Date().getFullYear()} TyRey Technologies, Inc. Outputs are planning
-        tools — not guarantees of business success or financial/legal advice.
-      </p>
+        TyRey Technologies, Inc.
+      </span>
+      <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
+        <Link href="/terms" style={{ color: "var(--ink-faint)" }}>
+          Terms
+        </Link>
+        <Link href="/privacy" style={{ color: "var(--ink-faint)" }}>
+          Privacy
+        </Link>
+        <span>
+          © {new Date().getFullYear()} — Outputs are planning tools, not
+          financial or legal advice.
+        </span>
+      </div>
     </footer>
   );
 }
@@ -158,17 +135,15 @@ export function LeadForm({
   if (status === "done") {
     return (
       <div
-        className="panel panel--corners"
+        className="panel"
         id="contact"
         style={{ padding: "clamp(28px, 4vw, 44px)", textAlign: "center" }}
       >
-        <p className="eyebrow" style={{ justifyContent: "center" }}>
-          Request received
-        </p>
+        <p className="eyebrow">Request received</p>
         <h3 className="display" style={{ fontSize: 26, margin: "16px 0 10px" }}>
           Thanks, {name.split(" ")[0] || "there"}.
         </h3>
-        <p style={{ color: "var(--parchment-dim)" }}>
+        <p style={{ color: "var(--ink-soft)" }}>
           We&apos;ll be in touch at {email} within one business day.
         </p>
       </div>
@@ -177,7 +152,7 @@ export function LeadForm({
 
   return (
     <div
-      className="panel panel--corners"
+      className="panel"
       id="contact"
       style={{ padding: "clamp(28px, 4vw, 44px)" }}
     >

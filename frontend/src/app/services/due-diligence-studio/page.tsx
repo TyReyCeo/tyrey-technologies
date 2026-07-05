@@ -16,6 +16,8 @@ export default function DueDiligenceStudio() {
       title="Investor-grade documents,"
       titleAccent="delivered in days — not weeks."
       subtitle="Professional investment memorandums, business plans, pitch decks, financial models, and market research. You bring the vision; our AI-powered studio does the research and writing."
+      image="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1800&q=80"
+      imageAlt="Business documents and planning session"
       deliverablesHeading="What we build for you"
       deliverables={[
         { name: "Investment Memorandums", desc: "Professional memos that present your deal the way institutional investors expect to see it." },
