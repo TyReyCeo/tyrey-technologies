@@ -20,41 +20,48 @@ keyless in demo mode; flipping `CONNECT_PROVIDER=twilio` makes it real.
 
 Backend
 
-- [ ] `backend/app/connect/` scaffold + router registered in `main.py`
-- [ ] Models + Alembic migration: ConnectNumber, Contact, Conversation,
-      Message, UsageRecord (fields per ARCHITECTURE.md §4)
-- [ ] Provider layer: `base.py` protocol, `demo.py` (default), factory +
+- [x] `backend/app/connect/` scaffold + router registered in `main.py`
+- [x] Models + Alembic migration (0002): ConnectNumber, Contact, Conversation,
+      Message, UsageRecord (fields per ARCHITECTURE.md §4) + ConnectProfile
+      (business profile / AI kill switch backing the Settings page)
+- [x] Provider layer: `base.py` protocol, `demo.py` (default), factory +
       settings (`CONNECT_PROVIDER`, Twilio vars in `.env.example`)
-- [ ] Twilio adapter: send SMS/MMS, provision/release number, webhook
-      signature verification (only file importing `twilio`)
-- [ ] Endpoints per ARCHITECTURE.md §5 with Pydantic validation, ownership
+- [x] Twilio adapter: send SMS/MMS, provision/release number, webhook
+      signature verification (only file importing `twilio`; signatures are
+      verified with `TWILIO_AUTH_TOKEN` per Twilio's scheme — no separate
+      webhook secret exists)
+- [x] Endpoints per ARCHITECTURE.md §5 with Pydantic validation, ownership
       filtering, and tests (happy + auth/ownership failure each)
-- [ ] Inbound + status webhooks, idempotent on `provider_sid`, with tests
-- [ ] Compliance: STOP/HELP/START keyword handling before AI; `sms_opt_out`
+- [x] Inbound + status webhooks, idempotent on `provider_sid`, with tests
+- [x] Compliance: STOP/HELP/START keyword handling before AI; `sms_opt_out`
       enforced on every outbound; registration-status gate on real sends
-- [ ] Usage metering on send/receive; `GET /connect/usage/summary`
-- [ ] AI: `connect_reply_draft.json` + `connect_summarize.json` frameworks,
+      (+ admin endpoint to flip registration status); per-user send rate limit
+- [x] Usage metering on send/receive; `GET /connect/usage/summary`
+- [x] AI: `connect_reply_draft.json` + `connect_summarize.json` frameworks,
       `/ai-draft` endpoint, golden-set entries, demo-mode outputs
-- [ ] AI: `connect_receptionist.json` + auto-reply policy
+- [x] AI: `connect_receptionist.json` + auto-reply policy
       (`ai_enabled` gate, AI-authored messages labeled)
 
 Frontend
 
-- [ ] `dashboard/connect/` overview page (number, usage, recent threads)
-- [ ] Inbox: conversation list + thread view, send box, AI-draft button
+- [x] `dashboard/connect/` overview page (number, usage, recent threads)
+- [x] Inbox: conversation list + thread view, send box, AI-draft button
       (insert-to-edit, explicit send), status/assign controls, ~10s polling
-- [ ] Contacts: list/search, add/edit, CSV import with validation feedback,
+- [x] Contacts: list/search, add/edit, CSV import with validation feedback,
       opt-out visibility
-- [ ] Settings: AI on/off, business profile that feeds the receptionist,
+- [x] Settings: AI on/off, business profile that feeds the receptionist,
       number provisioning UI
-- [ ] Dashboard nav entry; demo-mode banner when simulated
+- [x] Dashboard nav entry; demo-mode banner when simulated
 
 Release
 
-- [ ] Stripe: Connect + Connect Executive prices, plan gating on Connect
-      routes
-- [ ] Docs: update `docs/ARCHITECTURE.md` module list + this file's
-      checkboxes; admin runbook for 10DLC/toll-free registration
+- [x] Stripe plan gating on Connect routes (`connect` / `connect_executive`
+      plans; gate active only when Stripe is configured so keyless dev demo
+      keeps working). Manual step remaining: create the two recurring prices
+      in the Stripe Dashboard and set `STRIPE_PRICE_CONNECT` /
+      `STRIPE_PRICE_CONNECT_EXECUTIVE` on Render.
+- [x] Docs: `docs/ARCHITECTURE.md` module list updated + this file's
+      checkboxes; admin runbook: [REGISTRATION-RUNBOOK.md](REGISTRATION-RUNBOOK.md)
 - [ ] Early-access onboarding: convert `connect-ai` leads manually
 
 ## Phase 2 — Voice, AI receptionist & CRM (2–3 months classic / 3–6 weeks AI-assisted)

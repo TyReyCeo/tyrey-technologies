@@ -26,6 +26,11 @@ and (later) public developer APIs.
   existing `POST /leads` endpoint with `service: "connect-ai"`. Shipped with
   this package; no backend change was needed.
 - **This spec package** — product spec, architecture, and phased roadmap.
+- **Phase 1 (messaging core)** — built per ROADMAP.md: `backend/app/connect/`
+  (models, provider adapter, compliance, webhooks, usage, AI frameworks) and
+  `frontend/src/app/dashboard/connect/` (overview, inbox, contacts, settings).
+  Demo mode end to end; see [REGISTRATION-RUNBOOK.md](REGISTRATION-RUNBOOK.md)
+  for going live on real numbers.
 
 ## Package contents
 

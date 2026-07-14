@@ -24,16 +24,21 @@ The homepage is public marketing; every CTA routes directly into the product
                     │                                            │
                     │  routers/   funnel · auth · projects ·     │
                     │             documents · billing · leads    │
+                    │  connect/   Connect AI: messaging, inbox,  │
+                    │             contacts, carrier adapter      │
                     │  ai_engine  Claude generation w/ framework │
                     │             injection (never freeform)     │
-                    │  frameworks/  11 proprietary JSON templates│
+                    │  frameworks/  14 proprietary JSON templates│
                     │  pdf_service  fpdf2 → branded PDFs         │
-                    └──────┬──────────────┬──────────────┬───────┘
-                           │              │              │
-                     Render Postgres   Anthropic      Stripe
-                     (SQLite in dev)   Claude API     (checkout,
-                                                      subscriptions,
-                                                      webhooks)
+                    └──────┬──────────┬───────┬──────────┬───────┘
+                           │          │       │          │
+                     Render Postgres  │   Anthropic   Stripe
+                     (SQLite in dev)  │   Claude API  (checkout,
+                                      │               subscriptions,
+                                  Twilio (opt.)       webhooks)
+                                  via provider
+                                  adapter; demo
+                                  mode default
 ```
 
 ## Frontend (`frontend/`)
@@ -51,8 +56,10 @@ Route map (`frontend/src/app/`):
 | `/services/{due-diligence-studio,acquisition-scout,ceo-in-a-box}` | Service lines; `LeadForm` posts to `POST /leads` |
 | `/intelligence` | Phase 8 revenue funnel: idea → free preview → paywall → Stripe |
 | `/success` | Post-checkout order status + pack download |
+| `/connect-ai` | TyRey Connect AI™ product page; lead capture (`service: "connect-ai"`) |
 | `/signup`, `/login` | JWT auth (token stored client-side) |
 | `/dashboard/{projects,documents,vault,billing}` | The SaaS product |
+| `/dashboard/connect/{,inbox,contacts,settings}` | Connect AI: unified SMS inbox, contacts, AI receptionist settings |
 | `/terms`, `/privacy` | Legal pages |
 
 Shared pieces: [Site.tsx](../frontend/src/components/Site.tsx) (nav/footer/LeadForm),
@@ -76,7 +83,8 @@ FastAPI + SQLAlchemy 2.0 (typed `Mapped` models) + Pydantic v2.
 | `prompts/` | Versioned auxiliary prompt files (editor, retry, preview constraints) |
 | `pdf_service.py` | Markdown → branded PDF |
 | `routers/` | One file per domain (see [README API overview](../README.md#api-overview)) |
-| `frameworks/` | **The moat**: 11 proprietary framework templates |
+| `connect/` | TyRey Connect AI™ messaging module: models, `/connect/*` router, service-layer compliance (STOP/HELP/START, opt-out, registration gate), signature-verified webhooks, usage metering, and the carrier **provider adapter** (`providers/`: demo default, Twilio) — see [connect-ai/ARCHITECTURE.md](connect-ai/ARCHITECTURE.md) |
+| `frameworks/` | **The moat**: 14 proprietary framework templates (11 intelligence modules + 3 Connect conversation frameworks) |
 
 ### Design decisions worth knowing
 
@@ -100,6 +108,11 @@ FastAPI + SQLAlchemy 2.0 (typed `Mapped` models) + Pydantic v2.
   `/funnel/webhook` Stripe endpoint: `checkout.session.completed` fulfills an
   order (order metadata) or activates a plan (user/plan metadata);
   `customer.subscription.deleted` downgrades the user to free.
+- **Carrier connectivity is isolated behind a provider adapter**
+  (`connect/providers/`), exactly as the Anthropic SDK is isolated in `llm.py`.
+  `twilio.py` is the only file importing the twilio package; `demo.py` (the
+  default) simulates sends so every Connect path works keyless. Provider
+  failures surface as `ProviderError` → 502.
 - **Auth is deliberately hand-rolled JWT for the MVP** (PBKDF2 + PyJWT). The
   Engineering Handbook prefers a managed provider (Clerk/Auth0/Supabase);
   migrating is an accepted future task — don't extend the custom auth surface

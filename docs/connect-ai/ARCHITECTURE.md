@@ -69,7 +69,10 @@ Rules:
 - Provider failures raise `ProviderError` → surfaced as 502 with a clean
   message (same pattern as `LLMError`).
 - Settings added to `.env.example`: `CONNECT_PROVIDER` (`demo`|`twilio`),
-  `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WEBHOOK_SECRET`.
+  `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `CONNECT_SEND_RATE_PER_MIN`.
+  (No separate webhook secret: Twilio signs webhooks with the auth token —
+  HMAC-SHA1 over URL + sorted form params — which the adapter verifies with
+  the stdlib.)
 
 ## 4. Data model (Phase 1 core)
 
