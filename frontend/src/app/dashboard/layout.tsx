@@ -8,7 +8,8 @@ import { api, getToken, logout } from "@/lib/api";
 const NAV = [
   { href: "/dashboard", label: "Projects", code: "01" },
   { href: "/dashboard/vault", label: "Vault", code: "02" },
-  { href: "/dashboard/billing", label: "Billing", code: "03" },
+  { href: "/dashboard/connect", label: "Connect", code: "03" },
+  { href: "/dashboard/billing", label: "Billing", code: "04" },
 ];
 
 export default function DashboardLayout({
