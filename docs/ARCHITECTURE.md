@@ -60,6 +60,7 @@ Route map (`frontend/src/app/`):
 | `/signup`, `/login` | JWT auth (token stored client-side) |
 | `/dashboard/{projects,documents,vault,billing}` | The SaaS product |
 | `/dashboard/connect/{,inbox,contacts,settings}` | Connect AI: unified SMS inbox, contacts, AI receptionist settings |
+| `/dashboard/admin/{,clients,subscriptions,leads}` | Admin console (`ADMIN_EMAILS` only): clients, plan management, subscription oversight, lead pipeline |
 | `/terms`, `/privacy` | Legal pages |
 
 Shared pieces: [Site.tsx](../frontend/src/components/Site.tsx) (nav/footer/LeadForm),
@@ -103,6 +104,11 @@ FastAPI + SQLAlchemy 2.0 (typed `Mapped` models) + Pydantic v2.
 - **Ownership isolation** is enforced in every router — queries always filter
   by the authenticated `user_id`. The test suite asserts cross-user access
   fails. Lead listing is admin-only (`ADMIN_EMAILS`, deny by default).
+- **Admin console** (`routers/admin.py`, `/dashboard/admin`): every endpoint
+  sits behind `require_admin`. Mutations are limited to client plan changes,
+  lead pipeline status, Connect registration status, and Stripe
+  cancel-at-period-end — Stripe webhooks remain the source of truth for paid
+  plan lifecycle.
 - **Two payment paths**: one-time funnel packs (`Order`, `/funnel/*`) and SaaS
   subscriptions (`User.plan`, `/billing/*`). Both converge on the
   `/funnel/webhook` Stripe endpoint: `checkout.session.completed` fulfills an

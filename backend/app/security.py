@@ -63,8 +63,12 @@ def get_current_user(
     return user
 
 
-def require_admin(user: User = Depends(get_current_user)) -> User:
+def is_admin_email(email: str) -> bool:
     admins = {e.strip().lower() for e in settings.ADMIN_EMAILS.split(",") if e.strip()}
-    if user.email.lower() not in admins:
+    return email.lower() in admins
+
+
+def require_admin(user: User = Depends(get_current_user)) -> User:
+    if not is_admin_email(user.email):
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Admin access required")
     return user

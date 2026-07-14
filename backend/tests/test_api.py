@@ -717,6 +717,126 @@ def test_connect_send_rate_limited(client, monkeypatch):
     ).status_code == 429
 
 
+# =====================================================================
+# Admin console
+# =====================================================================
+
+def _admin_headers(client) -> dict:
+    r = client.post("/auth/signup", json={"email": "admin@tyrey.com", "password": "secret123"})
+    if r.status_code != 200:
+        r = client.post("/auth/login", json={"email": "admin@tyrey.com", "password": "secret123"})
+    return {"Authorization": f"Bearer {r.json()['token']}"}
+
+
+def test_me_reports_admin_flag(client, auth_headers):
+    assert client.get("/auth/me", headers=auth_headers).json()["is_admin"] is False
+    admin = _admin_headers(client)
+    assert client.get("/auth/me", headers=admin).json()["is_admin"] is True
+
+
+def test_admin_endpoints_denied_for_regular_users(client, auth_headers):
+    for path in (
+        "/admin/overview",
+        "/admin/clients",
+        "/admin/orders",
+        "/admin/connect/numbers",
+    ):
+        assert client.get(path, headers=auth_headers).status_code == 403, path
+    assert client.get("/admin/overview").status_code == 401  # unauthenticated
+
+
+def test_admin_overview_metrics(client):
+    admin = _admin_headers(client)
+    r = client.get("/admin/overview", headers=admin)
+    assert r.status_code == 200
+    data = r.json()
+    assert data["users_total"] >= 1
+    assert any(m["label"] == "free" for m in data["users_by_plan"])
+    assert data["orders_revenue_cents"] >= 0
+    assert data["connect_active_numbers"] >= 1  # provisioned in connect tests
+
+
+def test_admin_clients_list_and_detail(client):
+    admin = _admin_headers(client)
+    r = client.get("/admin/clients?query=connect-flow", headers=admin)
+    assert r.status_code == 200
+    rows = r.json()
+    assert len(rows) == 1
+    row = rows[0]
+    assert row["email"] == "connect-flow@tyrey.com"
+    assert row["connect_conversations"] >= 1
+
+    r = client.get(f"/admin/clients/{row['id']}", headers=admin)
+    assert r.status_code == 200
+    detail = r.json()
+    assert detail["email"] == "connect-flow@tyrey.com"
+    assert len(detail["connect_numbers"]) == 1
+    assert detail["connect_usage_cents_this_period"] > 0
+
+    assert client.get("/admin/clients/nope", headers=admin).status_code == 404
+
+
+def test_admin_plan_change(client):
+    admin = _admin_headers(client)
+    hdr = signup(client, "comped@tyrey.com")
+    user_id = client.get("/auth/me", headers=hdr).json()["id"]
+
+    r = client.patch(
+        f"/admin/clients/{user_id}", headers=admin, json={"plan": "connect"}
+    )
+    assert r.status_code == 200
+    assert r.json()["plan"] == "connect"
+    assert client.get("/auth/me", headers=hdr).json()["plan"] == "connect"
+
+    r = client.patch(
+        f"/admin/clients/{user_id}", headers=admin, json={"plan": "platinum"}
+    )
+    assert r.status_code == 400
+
+
+def test_admin_cancel_subscription_guards(client):
+    admin = _admin_headers(client)
+    hdr = signup(client, "cancel-me@tyrey.com")
+    user_id = client.get("/auth/me", headers=hdr).json()["id"]
+
+    # Stripe unconfigured -> 503
+    r = client.post(f"/admin/clients/{user_id}/cancel-subscription", headers=admin)
+    assert r.status_code == 503
+
+
+def test_admin_lead_pipeline_update(client):
+    admin = _admin_headers(client)
+    r = client.post(
+        "/leads",
+        json={"service": "connect-ai", "name": "Connect Prospect", "email": "prospect@example.com"},
+    )
+    assert r.status_code == 200  # connect-ai is now a valid lead service
+    lead_id = r.json()["id"]
+
+    r = client.patch(f"/leads/{lead_id}", headers=admin, json={"status": "qualified"})
+    assert r.status_code == 200
+    assert r.json()["status"] == "qualified"
+
+    assert client.patch(f"/leads/{lead_id}", headers=admin, json={"status": "bogus"}).status_code == 400
+    assert client.patch(f"/leads/{lead_id}", json={"status": "won"}).status_code == 401
+
+
+def test_admin_connect_numbers_all_users(client):
+    admin = _admin_headers(client)
+    r = client.get("/admin/connect/numbers", headers=admin)
+    assert r.status_code == 200
+    numbers = r.json()
+    assert len(numbers) >= 1
+    assert all(n["owner_email"] for n in numbers)
+
+
+def test_admin_orders_list(client):
+    admin = _admin_headers(client)
+    r = client.get("/admin/orders", headers=admin)
+    assert r.status_code == 200
+    assert any(o["status"] == "generated" for o in r.json())  # funnel test order
+
+
 # --- Profile ---
 
 def test_connect_profile_roundtrip(client):

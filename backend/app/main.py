@@ -10,7 +10,7 @@ from .connect import webhooks as connect_webhooks
 from .connect.providers import ProviderError
 from .database import init_db
 from .llm import LLMError
-from .routers import auth, billing, documents, funnel, leads, projects
+from .routers import admin, auth, billing, documents, funnel, leads, projects
 
 logging.basicConfig(level=logging.INFO)
 
@@ -60,6 +60,7 @@ app.include_router(projects.router)
 app.include_router(documents.router)
 app.include_router(billing.router)
 app.include_router(leads.router)
+app.include_router(admin.router)
 app.include_router(connect_router.router)
 app.include_router(connect_webhooks.router)
 

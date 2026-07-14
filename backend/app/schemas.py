@@ -28,6 +28,7 @@ class UserOut(BaseModel):
     email: str
     plan: str
     created_at: datetime.datetime
+    is_admin: bool = False
 
 
 # ---------- Projects ----------
@@ -142,4 +143,85 @@ class LeadOut(BaseModel):
 
 # ---------- Billing ----------
 class SubscribeRequest(BaseModel):
-    plan: str  # starter | pro | executive
+    plan: str  # starter | pro | executive | connect | connect_executive
+
+
+# ---------- Admin console ----------
+class LeadStatusUpdate(BaseModel):
+    status: str  # new | contacted | qualified | won | lost
+
+
+class AdminPlanUpdate(BaseModel):
+    plan: str  # free | starter | pro | executive | connect | connect_executive
+
+
+class AdminMetric(BaseModel):
+    label: str
+    value: int
+
+
+class AdminOverview(BaseModel):
+    users_total: int
+    users_by_plan: list[AdminMetric]
+    mrr_cents: int
+    leads_by_status: list[AdminMetric]
+    orders_total: int
+    orders_revenue_cents: int
+    connect_active_numbers: int
+    connect_pending_registration: int
+    connect_messages_this_period: int
+
+
+class AdminClientRow(BaseModel):
+    id: str
+    email: str
+    plan: str
+    is_admin: bool
+    has_billing_account: bool
+    projects: int
+    documents: int
+    orders: int
+    connect_conversations: int
+    created_at: datetime.datetime
+
+
+class AdminOrderOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    email: str | None
+    tier: str
+    amount: int
+    status: str
+    created_at: datetime.datetime
+
+
+class AdminClientDetail(BaseModel):
+    id: str
+    email: str
+    plan: str
+    is_admin: bool
+    stripe_customer_id: str | None
+    created_at: datetime.datetime
+    projects: list[ProjectOut]
+    documents: int
+    orders: list[AdminOrderOut]
+    leads: list[LeadOut]
+    connect_numbers: list["AdminNumberOut"]
+    connect_conversations: int
+    connect_usage_cents_this_period: int
+
+
+class AdminNumberOut(BaseModel):
+    id: str
+    e164: str
+    provider: str
+    toll_free: bool
+    status: str
+    owner_email: str
+    created_at: datetime.datetime
+
+
+class AdminSubscriptionCancelResult(BaseModel):
+    cancelled: int
+    detail: str

@@ -12,6 +12,8 @@ const NAV = [
   { href: "/dashboard/billing", label: "Billing", code: "04" },
 ];
 
+const ADMIN_NAV = { href: "/dashboard/admin", label: "Admin", code: "05" };
+
 export default function DashboardLayout({
   children,
 }: {
@@ -21,6 +23,7 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const [email, setEmail] = useState("");
   const [plan, setPlan] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -28,10 +31,11 @@ export default function DashboardLayout({
       router.replace("/login");
       return;
     }
-    api<{ email: string; plan: string }>("/auth/me", { auth: true })
+    api<{ email: string; plan: string; is_admin: boolean }>("/auth/me", { auth: true })
       .then((me) => {
         setEmail(me.email);
         setPlan(me.plan);
+        setIsAdmin(me.is_admin);
         setReady(true);
       })
       .catch(() => {
@@ -91,7 +95,7 @@ export default function DashboardLayout({
         </Link>
 
         <nav style={{ display: "grid", gap: 4 }}>
-          {NAV.map((item) => {
+          {(isAdmin ? [...NAV, ADMIN_NAV] : NAV).map((item) => {
             const active =
               item.href === "/dashboard"
                 ? pathname === "/dashboard" || pathname.startsWith("/dashboard/projects") || pathname.startsWith("/dashboard/documents")
