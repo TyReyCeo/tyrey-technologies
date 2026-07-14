@@ -50,8 +50,9 @@ def list_projects(user: User = Depends(get_current_user), db: Session = Depends(
 
 @router.get("/modules")
 def modules():
-    """The intelligence module catalog (framework IP library)."""
-    return list_frameworks()
+    """The intelligence module catalog (framework IP library). Connect AI's
+    conversation frameworks are internal to /connect and excluded here."""
+    return [f for f in list_frameworks() if f["category"] != "connect"]
 
 
 @router.get("/{project_id}", response_model=ProjectOut)
@@ -86,7 +87,7 @@ def generate(
     db: Session = Depends(get_db),
 ):
     project = _get_owned_project(project_id, user, db)
-    if req.module not in framework_names():
+    if req.module not in framework_names() or load_framework(req.module)["category"] == "connect":
         raise HTTPException(400, f"Unknown module '{req.module}'")
 
     content = ai_engine.generate(

@@ -17,6 +17,7 @@ class Base(DeclarativeBase):
 
 def init_db() -> None:
     from . import models  # noqa: F401  (register models before create_all)
+    from .connect import models as connect_models  # noqa: F401
 
     Base.metadata.create_all(bind=engine)
 

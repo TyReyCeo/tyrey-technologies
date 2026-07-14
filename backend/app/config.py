@@ -22,6 +22,15 @@ class Settings(BaseSettings):
     STRIPE_PRICE_STARTER: str = ""
     STRIPE_PRICE_PRO: str = ""
     STRIPE_PRICE_EXECUTIVE: str = ""
+    STRIPE_PRICE_CONNECT: str = ""
+    STRIPE_PRICE_CONNECT_EXECUTIVE: str = ""
+
+    # Connect AI carrier layer. Unset/"demo" = simulated sends (no keys),
+    # "twilio" = real carrier via the adapter in app/connect/providers/.
+    CONNECT_PROVIDER: str = "demo"
+    TWILIO_ACCOUNT_SID: str = ""
+    TWILIO_AUTH_TOKEN: str = ""
+    CONNECT_SEND_RATE_PER_MIN: int = 60
 
     FRONTEND_URL: str = "http://localhost:3000"
 

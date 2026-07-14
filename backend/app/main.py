@@ -5,6 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .config import settings
+from .connect import router as connect_router
+from .connect import webhooks as connect_webhooks
+from .connect.providers import ProviderError
 from .database import init_db
 from .llm import LLMError
 from .routers import auth, billing, documents, funnel, leads, projects
@@ -45,12 +48,20 @@ def llm_error_handler(request: Request, exc: LLMError):
     )
 
 
+@app.exception_handler(ProviderError)
+def provider_error_handler(request: Request, exc: ProviderError):
+    # Carrier failures surface as a clean 502, same pattern as LLMError.
+    return JSONResponse(status_code=502, content={"detail": str(exc)})
+
+
 app.include_router(funnel.router)
 app.include_router(auth.router)
 app.include_router(projects.router)
 app.include_router(documents.router)
 app.include_router(billing.router)
 app.include_router(leads.router)
+app.include_router(connect_router.router)
+app.include_router(connect_webhooks.router)
 
 init_db()
 

@@ -16,6 +16,9 @@ PLAN_PRICES = {
     "starter": lambda: settings.STRIPE_PRICE_STARTER,
     "pro": lambda: settings.STRIPE_PRICE_PRO,
     "executive": lambda: settings.STRIPE_PRICE_EXECUTIVE,
+    # TyRey Connect AI tiers — pricing fixed by the business ($495 / $995).
+    "connect": lambda: settings.STRIPE_PRICE_CONNECT,
+    "connect_executive": lambda: settings.STRIPE_PRICE_CONNECT_EXECUTIVE,
 }
 
 

@@ -11,3 +11,6 @@ PyJWT>=2.8
 truststore>=0.9
 fpdf2>=2.7
 psycopg2-binary>=2.9; sys_platform != "win32"
+# Connect AI carrier adapter (app/connect/providers/twilio.py — the only
+# importer). Justified: carrier connectivity is not something the stack does.
+twilio>=9.0
