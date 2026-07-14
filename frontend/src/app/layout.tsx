@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://tyreytechnologies.com"),
   title: "TyRey Technologies, Inc. — Intelligence Infrastructure for Modern Business",
   description:
-    "AI-powered strategy, deal flow, and executive support. Home of TyRey Intelligence™, the AI Due Diligence Studio, Acquisition Scout, and CEO in a Box.",
+    "AI-powered strategy, deal flow, and executive support. Home of TyRey Intelligence™, TyRey Connect AI™, the AI Due Diligence Studio, Acquisition Scout, and CEO in a Box.",
   openGraph: {
     type: "website",
     siteName: "TyRey Technologies",

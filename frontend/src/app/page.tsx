@@ -35,6 +35,14 @@ const PROOF = [
   ["From $29", "No credit card to preview"],
 ];
 
+const CONNECT_CAPABILITIES = [
+  "SMS · Voice · Email · WhatsApp · Video",
+  "AI receptionist & sales agents",
+  "Unified team inbox",
+  "Built-in CRM & campaigns",
+  "Workflow automation",
+];
+
 const PACK_CONTENTS = [
   "Business Plan",
   "Investor Memo",
@@ -332,6 +340,80 @@ export default function Home() {
                         ? "1px solid rgba(250,247,241,0.14)"
                         : "none",
                     paddingBottom: i < PACK_CONTENTS.length - 1 ? 14 : 0,
+                  }}
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Connect AI band ---------- */}
+      <section
+        style={{
+          padding: "80px var(--section-pad)",
+          borderBottom: "1px solid var(--rule)",
+        }}
+      >
+        <div className="flagship-grid">
+          <div>
+            <p className="eyebrow" style={{ margin: "0 0 16px" }}>
+              Next platform — early access
+            </p>
+            <h2
+              style={{
+                margin: "0 0 18px",
+                fontFamily: "var(--font-display)",
+                fontWeight: 400,
+                fontSize: 52,
+                lineHeight: 1.05,
+              }}
+            >
+              TyRey Connect AI™
+            </h2>
+            <p
+              style={{
+                margin: "0 0 30px",
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "var(--ink-soft)",
+                maxWidth: 560,
+              }}
+            >
+              The intelligent communications platform for modern business —
+              every call, text, email, and WhatsApp message answered, qualified,
+              and followed up by AI, with CRM and marketing automation built in.
+            </p>
+            <Link href="/connect-ai" className="btn">
+              Explore Connect AI
+            </Link>
+          </div>
+          <div className="panel" style={{ padding: 36 }}>
+            <p
+              style={{
+                margin: "0 0 24px",
+                fontSize: 12,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--oxblood)",
+              }}
+            >
+              One platform
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {CONNECT_CAPABILITIES.map((item, i) => (
+                <span
+                  key={item}
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: 21,
+                    borderBottom:
+                      i < CONNECT_CAPABILITIES.length - 1
+                        ? "1px solid var(--rule)"
+                        : "none",
+                    paddingBottom: i < CONNECT_CAPABILITIES.length - 1 ? 14 : 0,
                   }}
                 >
                   {item}

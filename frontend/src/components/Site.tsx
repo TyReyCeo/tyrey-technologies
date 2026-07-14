@@ -10,6 +10,7 @@ import { api } from "@/lib/api";
 
 const NAV_LINKS = [
   { href: "/intelligence", label: "Intelligence Platform" },
+  { href: "/connect-ai", label: "Connect AI" },
   { href: "/services/due-diligence-studio", label: "Due Diligence Studio" },
   { href: "/services/acquisition-scout", label: "Acquisition Scout" },
   { href: "/services/ceo-in-a-box", label: "CEO in a Box" },
