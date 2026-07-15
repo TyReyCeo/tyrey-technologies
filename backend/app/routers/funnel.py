@@ -108,6 +108,74 @@ def _sget(obj, key, default=None):
     return default if value is None else value
 
 
+# Subscription statuses that still entitle a user to their paid plan. Anything
+# else (canceled, unpaid, incomplete_expired, ...) means no entitlement.
+_ENTITLED_STATUSES = {"active", "trialing", "past_due"}
+
+
+def _plan_for_price(price_id):
+    """Reverse PLAN_PRICES (plan -> price getter) into price ID -> plan name.
+
+    Unconfigured plans (getter returns falsy) are skipped so an unset
+    STRIPE_PRICE_* env var can never masquerade as a real price ID.
+    """
+    if not price_id:
+        return None
+    for plan, price_getter in PLAN_PRICES.items():
+        if price_getter() == price_id:
+            return plan
+    return None
+
+
+def _sync_subscription_from_event(event, db: Session) -> None:
+    """Sync ``User.plan`` from a customer.subscription.created/updated/deleted event.
+
+    Idempotent: the target plan is derived entirely from the event payload, so
+    Stripe's at-least-once retries converge on the same state. This is what
+    keeps plan switches and cancellations made in the Stripe billing portal in
+    sync with our entitlement — ``checkout.session.completed`` only covers the
+    initial subscribe, not later upgrades/downgrades/cancels.
+    """
+    sub = event["data"]["object"]
+    customer_id = _sget(sub, "customer")
+    user = (
+        db.query(User).filter(User.stripe_customer_id == customer_id).first()
+        if customer_id
+        else None
+    )
+    if user is None:
+        logger.warning(
+            "Subscription event %s for unknown customer %s",
+            event["type"], customer_id,
+        )
+        return
+
+    if event["type"] == "customer.subscription.deleted":
+        new_plan = "free"
+    else:
+        items = _sget(_sget(sub, "items", {}), "data", []) or []
+        price_id = _sget(_sget(items[0], "price", {}), "id") if items else None
+        plan = _plan_for_price(price_id)
+        if _sget(sub, "status") not in _ENTITLED_STATUSES:
+            new_plan = "free"
+        elif plan is None:
+            # An entitled subscription on a price we don't recognize means the
+            # STRIPE_PRICE_* env vars are out of sync with Stripe. Keep the
+            # current plan rather than silently downgrading a paying customer.
+            logger.error(
+                "Subscription price %s not in configured plan map (customer %s)",
+                price_id, customer_id,
+            )
+            return
+        else:
+            new_plan = plan
+
+    if user.plan != new_plan:
+        logger.info("Subscription sync: user %s plan %s -> %s", user.id, user.plan, new_plan)
+        user.plan = new_plan
+        db.commit()
+
+
 @router.post("/webhook")
 async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
     payload = await request.body()
@@ -144,17 +212,14 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
                     order.email = _sget(_sget(session, "customer_details", {}), "email")
                 _fulfill_order(db, order)
 
-    elif event["type"] == "customer.subscription.deleted":
-        customer_id = _sget(event["data"]["object"], "customer")
-        user = (
-            db.query(User).filter(User.stripe_customer_id == customer_id).first()
-            if customer_id
-            else None
-        )
-        if user is not None and user.plan != "free":
-            logger.info("Subscription ended — downgrading user %s to free", user.id)
-            user.plan = "free"
-            db.commit()
+    elif event["type"] in (
+        "customer.subscription.created",
+        "customer.subscription.updated",
+        "customer.subscription.deleted",
+    ):
+        # Ongoing entitlement sync: portal-initiated plan switches, cancels,
+        # and payment-failure state changes all land here.
+        _sync_subscription_from_event(event, db)
 
     return {"status": "success"}
 
